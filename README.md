@@ -7,7 +7,7 @@
 But : gagner les jetons des autres joueurs, être le dernier joueur avec des jetons
 
 cash game = joueur peut quitter la table et échanger ses jetons contre de l'argent
-tournoi = impossible de convertir ses jetons en argent, on gagne de l’argent en étantt bien classés dans le tournoi, à une place payée
+tournoi = impossible de convertir ses jetons en argent, on gagne de l’argent en étant bien classés dans le tournoi, à une place payée
 tournoi bounty = quand j’élimine un joueur je gagne de l’argent
 
 Le board = les 5 cartes qu’on met sur la table

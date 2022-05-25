@@ -38,42 +38,79 @@ Tout le vocabulaire du Poker dictionnaire [ici](https://www.ludo9.com/poker/regl
 
 ## Tour de jeu :
 
-#### 1. PREFLOP
+#### 1. PREFLOP, enchères tour 1
 SB et BB mettent leur jetons 
 
 Personne à gauche de la grosse blinde qui parle en premier, options :
 - folder (se coucher)
 - checker si a déjà misé assez avant (=parole)
-- soit de call (suivre, minimum BB pour premier joueur)
-- soit de raise (miser)
-- soit de re-raise (surrelancer, jusqu’a la hauteur de son tapis (all-in), s’il le souhaite)
+- call (suivre, minimum BB pour premier joueur)
+- raise (miser)
+- re-raise (surrelancer, jusqu’a la hauteur de son tapis (all-in), s’il le souhaite)
 
 ==> dernier joueur à parler est donc celui qui se trouve en position de big blind
 ==> quand tout le monde est ok --> FLOP
 
-#### 2. FLOP
-Tour 1 d’enchères
+Le bouton Dealer se déplace d'un cran
 
-Le dealer brûle une carte + 3 cartes (=**flop**)
+#### 2. FLOP + enchères tour 2
 
-SB qui commence à parler
+Le dealer brûle une carte + 3 cartes retournées (=**flop**)
+
+SB qui commence à parler (ou tout joueur encore en jeu, à la gauche immédiate du dealer), options :
+- folder (se coucher)
+- checker (=parole)
+- call (suivre si qqun a misé avant)
+- raise (miser)
+- re-raise (surrelancer, jusqu’a la hauteur de son tapis (all-in), s’il le souhaite)
+
+==> dernier joueur à parler est le dealer
+==> quand tout le monde est ok --> TURN
+
+#### 3. TURN + enchères tour 3
+
+Le dealer brûle une seconde carte + 1 carte retournée (=**la turn**)
+
+SB qui commence à parler (ou tout joueur encore en jeu, à la gauche immédiate du dealer), options :
+- folder (se coucher)
+- checker (=parole)
+- call (suivre si qqun a misé avant)
+- raise (miser)
+- re-raise (surrelancer, jusqu’a la hauteur de son tapis (all-in), s’il le souhaite)
+
+==> dernier joueur à parler est le dealer
+==> quand tout le monde est ok --> RIVER
+
+#### 4. RIVER + enchères tour 4
+
+Le dealer brûle une troisième carte + 1 dernière carte retournée (=**la river**)
+
+SB qui commence à parler (ou tout joueur encore en jeu, à la gauche immédiate du dealer), options :
+- folder (se coucher)
+- checker (=parole)
+- call (suivre si qqun a misé avant)
+- raise (miser)
+- re-raise (surrelancer, jusqu’a la hauteur de son tapis (all-in), s’il le souhaite)
+
+==> dernier joueur à parler est le dealer
+==> quand tout le monde est ok --> 
+
+#### 5. SHOWDOWN
+
+Les 2 jours au moins dévoilent  leurs cartes 
+- un joueur gagne
+- plusieurs joueurs gagnent : on partage le pot
+
+le dealer suivant récupère toutes les cartes, les mélanges, puis effectue une nouvelle distribution des cartes de poker, nouveau coup débute
 
 
-Tour 2 d’enchères
-options :
-- check (=parole)
-- miser / suivre
-4 cartes
-Tour 3 d’enchères
-- check (=parole)
-- miser / suivre
-5 cartes
-Tour 4 d’enchères
-- check (=parole)
-- miser / suivre
 
 
-Le bouton se déplace d'un cran
+
+
+
+
+
 
 
 

@@ -63,29 +63,44 @@ BB ---- SB ---- BOUTON
 |quand tout le monde est ok --> FLOP|quand tout le monde est ok --> TURN|quand tout le monde est ok --> RIVER|quand tout le monde est ok --> SHOWDOWN|BB, SB, D se déplacent d'un cran vers gauche : dealer suivant récupère toutes les cartes, les mélanges, puis effectue une nouvelle distribution des cartes de poker, nouveau coup débute|
 
 
-
-
-
 #### Stratégie
 
 ##### 1. La position
 ##### 2. Probabilités de première main
 52 cartes, probabilité Brelan = 4,83 %
 
-# II - Poker Bot
+# II - Les Poker Bots
 
-### 1. Imperfect-Information Games
+### 1. Poker = Imperfect-Information Game
 
 - Theory of Games and Economic Behavior, John von Neumann et Oskar Mergenstern, 1944
-- Depuis le début des années 1980, Théorie des jeux occupe une place de plus en plus importante en informatique
-- Divers modèles de jeux
-- Application de la TdJ dans divers domaines de CS : théorie des automates, logique, vérification de programmes, optimisation, et apprentissage par renforcement
+- La théorie des jeux classifie les jeux en catégories en fonction de leurs approches de résolution (jeux à somme nulle, Jeux simultanés, Jeux séquentiels, Jeux à information complète et information incomplète, etc.), et cherche à mettre en évidence des stratégies optimales
+- Depuis le début des années 1980, Théorie des jeux occupe une place de plus en plus importante en informatique : application dans la théorie des automates, logique, vérification de programmes, optimisation, et apprentissage par renforcement
 
-Imperfect-Information Games = situations dans lesquelles les preneurs de décision sont incertains quant aux événements qui ont eu lieu dans le système global
+- Dans tous les jeux, les décisions peuvent être représentées par un arbre, dont chaque nœud est associé au joueur qui décide. Les gains de tous les joueurs sont associés aux terminaisons (derniers noeuds) de l'arbre.
+- Imperfect-Information Games = situations dans lesquelles un joueur qui doit prendre une décision ne connaît pas les choix effectués par les joueurs qui ont joué avant lui : il ne connaît pas parfaitement le noeud auquel il se situe
+- Perfect-Information Games : échecs, jeu de Go
+- En 1997, Deep Blue vainquait le maître des échecs Garry Kasparov.
+- En 2016, AlphaGo venait à bout du meilleur joueur de go, Lee Sedol
+
+"« Les jeux à informations complètes peuvent se résumer sous la forme d’un énorme arbre des décisions à parcourir. L’intelligence essaye de diminuer la taille de cet arbre en se focalisant sur les décisions les plus importantes », détaille Sébastien Konieczny, chargé de recherche au CNRS et spécialiste de la logique pour l’intelligence artificielle. De par son information incomplète, le poker implique des techniques de gestion de l’incertitude, de probabilité et de tirages aléatoires.  » Doté d’une énorme puissance de calcul, le programme Libratus utilise également l’apprentissage par renforcement pour « comprendre le fonctionnement de son adversaire et s’adapter à son jeu », conclut le chercheur."
+
+- Nash equilibrum in Poker, Y a t il une stratégie optimale en Poker ? Oui
 
 
+### 2. Historique
 
-Libratus gagne un match de Texas hold’em face à quatre des meilleurs joueurs mondiaux en 2017
+2019 : Pluribus
+2017 : Libratus
+
+- 20 jours d’affrontements dans un casino de Pittsburgh
+- 120,000 mains jouées au no-limit Texas Hold'em
+- a combattu contre 4 joueurs professionnels de Poker (Dong Kim, Jason Les, Jimmy Chou et Daniel McAulay), affrontés en duel dans des parties simultanées
+- IA crée par 2 chercheurs de Carnegie Mellon University
+- Brains vs. AI competition
+- article cité par un des chercheurs Cernegie [site](https://www.engadget.com/2017-02-10-libratus-ai-poker-winner.html)
+
+2015 : AI Claudico
 
 University of Alberta Computer Poker Research Group [leur site](https://webdocs.cs.ualberta.ca/~games/poker/)
 - DeepStackAI (2017)
@@ -94,7 +109,23 @@ University of Alberta Computer Poker Research Group [leur site](https://webdocs.
 - Polaris (2007) : s'est mesuré à deux joueurs de poker américains de renommée mondiale, Phil Laak et Ali Eslami, lors de la Conférence annuelle sur l'intelligence artificielle en 2007 à Vancouver. Les deux joueurs humains ont gagné de justesse après quatre parties, avec un match nul, une victoire pour le logiciel et deux victoires pour les hommes.
 
 
+### 3. Poker en ligne & bots
 
+- Pokerstars et Winamax reçoivent chaque mois plusieurs centaines de mails de la part de joueurs estimant avoir affronté un bot
+Article [Usbek & Rica](https://usbeketrica.com/fr/article/poker-en-ligne-les-bots-finiront-ils-par-chasser-les-humains)
+de nommbre
+
+
+# III - Create a Poker Bot
+
+### 1. Reinforcement learning
+
+### 2. Counterfactual Regret Minimization (CFR) algorithm
+- vanilla cfr
+- monte carlo cfr 
+
+
+### 3. Abstractions
 
 
 

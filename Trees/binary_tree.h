@@ -22,5 +22,6 @@ typedef struct	Tree
 Tree *new_tree(int x);
 void clean_tree(Tree *tr);
 Tree *join_tree(Tree *left, Tree *right, int node);
+void print_tree_prefix(Tree *tr);//prefix c'est d'abord on affiche tout ce qui est a gauche et ensuite à droite, a linverse c'est postfix
 
 #endif

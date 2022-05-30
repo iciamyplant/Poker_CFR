@@ -70,10 +70,8 @@ BB ---- SB ---- BOUTON
 ##### 2. Probabilités de première main
 52 cartes, probabilité Brelan = 4,83 %
 
-# II - Les Poker Bots
-
-### 1. La théorie des jeux 
-
+# II - Théorie des jeux
+ 
 Theory of Games and Economic Behavior, John von Neumann et Oskar Mergenstern, 1944. La théorie des jeux est un domaine des mathématiques fournissant des outils pratiques pour modéliser et raisonner sur des situations interactives (= des jeux). (Définition : La theorie des jeux permet une analyse formelle des problemes posés par l’interaction strategique d’un groupe d’agents rationnels poursuivant des buts qui leur sont propres).
 
 - La théorie des jeux **classifie les jeux en catégories** en fonction de leurs approches de résolution
@@ -81,8 +79,7 @@ Theory of Games and Economic Behavior, John von Neumann et Oskar Mergenstern, 19
 
 ==> Depuis le début des années 1980, la théorie des jeux occupe une place de plus en plus importante en informatique : application dans la théorie des automates, logique, vérification de programmes, optimisation, et apprentissage par renforcement...
 
-
-### 2. Classification des jeux
+### 1. Classification des jeux
 
 Les situations interactives peuvent avoir une nature très différente en fonction de nombreux facteurs comme le nombre de joueurs, la structure des utilitaires ou l'ordre des coups, etc. Sur la base de ces caractéristiques, nous pouvons classer les jeux en types (tel que les jeux à somme nulle, jeux simultanés, jeux séquentiels, jeux à information complète et information incomplète, etc.)
 
@@ -110,7 +107,7 @@ Notations :
 
 Dans tous les jeux, les décisions peuvent être représentées par un arbre, dont chaque nœud est associé au joueur qui décide. Les gains de tous les joueurs sont associés aux terminaisons (derniers noeuds) de l'arbre. Dans les Imperfect-Information Games = situations dans lesquelles un joueur qui doit prendre une décision ne connaît pas les choix effectués par les joueurs qui ont joué avant lui : il ne connaît pas parfaitement le noeud auquel il se situe. Une fois que nous avons classifié un jeu, nous pouvons commencer à raisonner à son sujet en utilisant des théorèmes génériques connus qui s'appliquent à notre type de jeu.
 
-### 3. Stratégies Optimales
+### 2. Stratégies Optimales
 
 Stratégie = décrit comment agir dans toutes les situations possibles. Une strategie pure du joueur i est un plan d’action qui prescrit une action de ce joueur pour chaque fois qu’il est susceptible de jouer. On note par **Si** l’ensemble des stratégies pures du joueur i et par **si** une stratégie pure de ce joueur.
 
@@ -138,11 +135,23 @@ Stratégie = décrit comment agir dans toutes les situations possibles. Une stra
 - [video](https://www.youtube.com/watch?v=wZAztwm4gI8)
 
 
- 
-"« Les jeux à informations complètes peuvent se résumer sous la forme d’un énorme arbre des décisions à parcourir. L’intelligence essaye de diminuer la taille de cet arbre en se focalisant sur les décisions les plus importantes », détaille Sébastien Konieczny, chargé de recherche au CNRS et spécialiste de la logique pour l’intelligence artificielle. De par son information incomplète, le poker implique des techniques de gestion de l’incertitude, de probabilité et de tirages aléatoires.  » Doté d’une énorme puissance de calcul, le programme Libratus utilise également l’apprentissage par renforcement pour « comprendre le fonctionnement de son adversaire et s’adapter à son jeu », conclut le chercheur."
+# III - Poker Bots
+
+Dans des jeux comme le poker, les actions choisies via des stratégies ne peuvent pas être entièrement déterministes. La randomisation est nécessaire - si les joueurs ne le faisaient pas, leur modèle de pari serait rapidement appris et exploité. Dans la théorie des jeux, une randomisation des décisions en points de décision est réalisée via des probabilités.
+
+**Behavioral Strategy** = consiste en un ensemble de distributions de probabilités sur les actions aux points de décision. Imaginons pour une main 8/9 au preflop, on peut avoir une distribution de probabilités : 0.15 check, 0.35 bet 5, 0.4 bet 10, 0.05 all-in ...
+
+**Profil Strategy** = ensemble de stratégies pour tous les joueurs impliqués dans une partie. Pour nous 2 stratégies (une par joueur)
+
+Étant donné un profil de stratégie, nous pouvons déjà imiter le jeu de poker entre joueurs. Un jeu unique serait une séquence d'actions tirées de distributions de probabilités données par les stratégies des joueurs (+ actions du croupier comme chance). Une fois qu'un jeu est terminé, les joueurs gagnent leurs utilités (ou gains).
+
+Parce que nous sommes installés dans un cadre probabiliste, nous pouvons considérer les utilités attendues pour les joueurs. Chaque profil de stratégie indique alors directement les utilités attendues (gains attendus) pour les deux joueurs. Cela signifie que nous pouvons évaluer les stratégies et les profils de stratégie via les utilités attendues.
+
+
+
+
 
 - Nash equilibrum in Poker, Y a t il une stratégie optimale en Poker ? Oui
-
 
 ### 2. Historique
 

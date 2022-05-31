@@ -49,6 +49,8 @@ Objectif d’avoir la meilleure combinaison de 5 cartes (7 cartes en tout)
 **Buying in** = ce qu'on paye pour rentrer en tournoi
 **Bakroll** = Cagnotte consacrée au poker, matelas d'argent qu'un joueur professionnel ou amateur gagnant possède, généralement sur un compte disjoint de son compte courant, et dans lequel il puise pour payer ses inscriptions de tournois ou pour se caver en cash-game
 **Tells** = indices que révèlent le comportement d’un joueur, attitude, tempo des mises, mimiques, émotions
+**Fish** = joueur novice
+**limp** = Limper, action qui ne peut se produire qu'avant le flop. Si un joueur décide d'aller voir le flop en investissant le moins d'argent possible alors il paye juste le montant de la big blind
 
 Tout le vocabulaire du Poker dictionnaire [ici](https://www.ludo9.com/poker/regles-poker/dictionnaire-poker/vocabulaire-poker-d/definition-dealer-poker/)
 
@@ -111,7 +113,7 @@ Dans tous les jeux, les décisions peuvent être représentées par un arbre, do
 
 Stratégie = décrit comment agir dans toutes les situations possibles. Une strategie pure du joueur i est un plan d’action qui prescrit une action de ce joueur pour chaque fois qu’il est susceptible de jouer. On note par **Si** l’ensemble des stratégies pures du joueur i et par **si** une stratégie pure de ce joueur.
 
-3.1 : La stratégie de l'elimination des stratégies dominées (EISD)
+**2.1 : La stratégie de l'elimination des stratégies dominées (EISD)**
 
 || u| v | w |
 |------|----------|-------|-------|
@@ -128,7 +130,7 @@ Stratégie = décrit comment agir dans toutes les situations possibles. Une stra
 ==> Parfois la stratégie dominante de l'un et la stratégie dominante de l'autre amènent à une seule et même réponse
 ==> Problème majeur de cette méthode: tous les jeux ne sont pas résolvable par EISD
 
-3.2 : L'équilibre de Nash
+**2.2 : L'équilibre de Nash**
 - équilibre dans lequel aucun des joueurs ne va changer sa stratégie parce qu'il va etre moins bien placé que s'il decidait de rester dans sa stratégie
 - n'implique pas que les joueurs acquièrent leur utilité max : ça peut être un équilibre sous-performant
 - un jeu peut avoir plusieurs équilibres de Nash
@@ -137,21 +139,49 @@ Stratégie = décrit comment agir dans toutes les situations possibles. Une stra
 
 # III - Poker Bots
 
+### 1. Strétegie générale
+
 Dans des jeux comme le poker, les actions choisies via des stratégies ne peuvent pas être entièrement déterministes. La randomisation est nécessaire - si les joueurs ne le faisaient pas, leur modèle de pari serait rapidement appris et exploité. Dans la théorie des jeux, une randomisation des décisions en points de décision est réalisée via des probabilités.
 
 **Behavioral Strategy** = consiste en un ensemble de distributions de probabilités sur les actions aux points de décision. Imaginons pour une main 8/9 au preflop, on peut avoir une distribution de probabilités : 0.15 check, 0.35 bet 5, 0.4 bet 10, 0.05 all-in ...
 
 **Profil Strategy** = ensemble de stratégies pour tous les joueurs impliqués dans une partie. Pour nous 2 stratégies (une par joueur)
 
-Étant donné un profil de stratégie, nous pouvons déjà imiter le jeu de poker entre joueurs. Un jeu unique serait une séquence d'actions tirées de distributions de probabilités données par les stratégies des joueurs (+ actions du croupier comme chance). Une fois qu'un jeu est terminé, les joueurs gagnent leurs utilités (ou gains).
 
-Parce que nous sommes installés dans un cadre probabiliste, nous pouvons considérer les utilités attendues pour les joueurs. Chaque profil de stratégie indique alors directement les utilités attendues (gains attendus) pour les deux joueurs. Cela signifie que nous pouvons évaluer les stratégies et les profils de stratégie via les utilités attendues.
+- Étant donné un profil de stratégie, nous pouvons déjà imiter le jeu de poker entre joueurs
+- Un jeu unique serait une séquence d'actions tirées de distributions de probabilités données par les stratégies des joueurs (+ actions du croupier comme chance)
+- Une fois qu'un jeu est terminé, les joueurs gagnent leurs utilités (ou gains). Parce que nous sommes installés dans un cadre probabiliste, nous pouvons considérer les utilités attendues pour les joueurs. Chaque profil de stratégie indique alors directement les utilités attendues (gains attendus) pour les deux joueurs. Cela signifie que nous pouvons évaluer les stratégies et les profils de stratégie via les utilités attendues
+
+### 2. Stratégie optimale au Poker : Nash Equilibrium
+
+Y a t-il une stratégie optimale au Poker ? Selon la théorie des jeux, oui.
+
+Nash Equilibrium = profil de stratégie (ensemble de stratégies pour tous les joueurs impliqués) tel qu'aucun joueur n'a d'incitation à dévier. Il représente un équilibre entre les joueurs, **point où aucun joueur ne gagne à changer de stratégie**. Nous disons que les deux joueurs jouent un profil de stratégie Nash-Equilibrium si changer sa stratégie pour un joueur n'apporte aucune valeur supplémentaire (en termes d'utilité) lorsque l'autre joueur joue sa stratégie d'origine (il ne la change pas) - les deux joueurs jouent les meilleures réponses à l'autre.
+
+**Est-ce que Nash Equilibrium existe pour le poker ?**
+- théorème d'existence de Nash indique que pour les jeux finis (dont le poker), l'équilibre de Nash est garanti d'exister
+- le théorème Minimax prouve que pour les jeux finis à somme nulle à deux joueurs, il existe la meilleure utilité unique possible appelée valeur du jeu pour les deux joueurs en gain d'équilibre
+
+**Y a-t-il qu'un ou plusieurs NE ?**
+- Toutes les valeurs d'équilibre de Nash au poker sont égales - elles produisent la même utilité attendue
+- les NE sont interchangeables : vous pouvez jouer n'importe quelle stratégie contre n'importe quelle stratégie adverse à partir de n'importe quel équilibre de Nash et vous atterrirez avec le même gain : la valeur du jeu
+
+**Sommes-nous assurés d'atterrir sur le meilleur NE ?**
+- si vous choisissez de jouer n'importe quelle stratégie à partir de n'importe quel équilibre de Nash, vous êtes assuré de ne pas perdre
+- il est hautement improbable que votre adversaire humain joue la stratégie NE, vous le surpasserez dans l'attente car il s'écartera de sa stratégie NE et il obtiendra donc un gain inférieur
+- et parce que le jeu de poker est un jeu à somme nulle pour deux joueurs, cela signifie de manière équivalente que vous obtiendrez des gains plus élevés
+
+==> En pratique donc, jouer à Nash Equilibrium permet de gagne en attente (contre des humains sujets aux erreurs)
+==> Notre algorithme CFR – produit une approximation du profil de stratégie Nash-Equilibrium
 
 
 
 
 
-- Nash equilibrum in Poker, Y a t il une stratégie optimale en Poker ? Oui
+De plus, même si la valeur du jeu au poker n'est peut-être pas nulle (y a-t-il une "symétrie d'avantage" entre la position du croupier et l'inégalité des blinds ?) À long terme, elle disparaîtra à zéro parce que dans le tête-à-tête NLTH le bouton du croupier se déplace de d'un joueur à l'autre entre les tours, jouer à Nash Equilibrium n'entraînera alors en pratique aucun gain (vous ne perdrez pas en le jouant dans l'attente). L'exploitabilité d'une stratégie d'une paire d'équilibre de Nash est nulle - cela signifie que si vous la jouez, la meilleure stratégie d'exploitation de votre adversaire aura un gain nul en attente. Vous êtes assuré de tirer dans le pire des cas.
+
+
+
 
 ### 2. Historique
 

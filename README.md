@@ -51,6 +51,9 @@ Objectif d’avoir la meilleure combinaison de 5 cartes (7 cartes en tout)
 **Tells** = indices que révèlent le comportement d’un joueur, attitude, tempo des mises, mimiques, émotions
 **Fish** = joueur novice
 **limp** = Limper, action qui ne peut se produire qu'avant le flop. Si un joueur décide d'aller voir le flop en investissant le moins d'argent possible alors il paye juste le montant de la big blind
+**stratégie push/fold** = réduire votre liste d'options à 2, soit partir à tapis, soit se coucher, avant le flop
+**78o** = 7 et 8 offsuit, pas de même couleur
+**78s** = un sept et un huit de même couleur
 
 Tout le vocabulaire du Poker dictionnaire [ici](https://www.ludo9.com/poker/regles-poker/dictionnaire-poker/vocabulaire-poker-d/definition-dealer-poker/)
 
@@ -159,7 +162,7 @@ Y a t-il une stratégie optimale au Poker ? Selon la théorie des jeux, oui.
 Nash Equilibrium = profil de stratégie (ensemble de stratégies pour tous les joueurs impliqués) tel qu'aucun joueur n'a d'incitation à dévier. Il représente un équilibre entre les joueurs, **point où aucun joueur ne gagne à changer de stratégie**. Nous disons que les deux joueurs jouent un profil de stratégie Nash-Equilibrium si changer sa stratégie pour un joueur n'apporte aucune valeur supplémentaire (en termes d'utilité) lorsque l'autre joueur joue sa stratégie d'origine (il ne la change pas) - les deux joueurs jouent les meilleures réponses à l'autre.
 
 **Est-ce que Nash Equilibrium existe pour le poker ?**
-- théorème d'existence de Nash indique que pour les jeux finis (dont le poker), l'équilibre de Nash est garanti d'exister
+- Nash’s Existence Theorem indique que pour les jeux finis (dont le poker), l'équilibre de Nash est garanti d'exister
 - le théorème Minimax prouve que pour les jeux finis à somme nulle à deux joueurs, il existe la meilleure utilité unique possible appelée valeur du jeu pour les deux joueurs en gain d'équilibre
 
 **Y a-t-il qu'un ou plusieurs NE ?**
@@ -174,16 +177,37 @@ Nash Equilibrium = profil de stratégie (ensemble de stratégies pour tous les j
 ==> En pratique donc, jouer à Nash Equilibrium permet de gagne en attente (contre des humains sujets aux erreurs)
 ==> Notre algorithme CFR – produit une approximation du profil de stratégie Nash-Equilibrium
 
+### 3. Arbre
+
+- les nœuds représentent les états du jeu
+- les arêtes représentent la transition les états de jeux, cad les actions jouées
+
+L'arbre de jeu du poker est un peu différent de l'arbre de jeu à informations parfaites (comme les échecs ou l'arbre de jeu de Go).
+
+Tout d'abord, le véritable état du jeu ne peut être observé par aucun des joueurs. Les joueurs ne peuvent voir que leurs propres cartes et ne sont pas conscients des cartes détenues par les autres joueurs. Par conséquent, lorsque nous considérons l'arbre de jeu, nous devons séparer l'état réel du jeu de ce que les joueurs observent. Dans une partie à deux joueurs, il est alors judicieux de considérer différentes perspectives de l'arbre de jeu :
+
+- le véritable état de jeu - non observable par les joueurs, utile lors de l'apprentissage par l'auto-jeu
+- perspective du joueur #1 - ensemble d'états indiscernables pour le joueur #1 (ses cartes et actions publiques)
+- perspective du joueur #2 - ensemble d'états indiscernables pour le joueur #2 (ses cartes et actions publiques)
+
+Les perspectives des joueurs sont également appelées ensembles d'informations. L'ensemble d'informations est un ensemble d'états de jeu (nœuds d'arbre de jeu) qui ne peuvent pas être distingués pour un joueur. Dans n'importe quel point de décision au poker, vous devez considérer la main de tous les adversaires possibles à la fois - ils forment un ensemble d'informations. Veuillez noter que les ensembles d'informations pour les deux joueurs dans tous les points de décision au poker sont différents, de même que leur intersection dans le jeu de poker tête-à-tête NLTH est un singleton composé de l'état réel du jeu.
+
+Le point important ici est que - pour le poker - les stratégies comportementales (probabilités sur les actions) sont définies pour des ensembles d'informations, pas pour des états de jeu.
+
+L'existence du hasard peut être modélisée en ajoutant un type supplémentaire de nœud à l'arbre du jeu - le nœud de chance. En plus des nœuds du joueur (où ils agissent), nous considérerons un nœud aléatoire - représentant l'environnement stochastique externe - qui "joue" ses actions de manière aléatoire. Au poker, le hasard prend son tour chaque fois que de nouvelles cartes sont distribuées (mains initiales + tours d'enchères consécutifs) et son caractère aléatoire sera uniforme sur les actions possibles (jeu de cartes).
 
 
+**inserer image arbre**
+
+Veuillez jeter un coup d'œil à l'arbre de jeu de Kuhn Poker - poker simplifié où seulement 3 cartes différentes sont distribuées, il n'y a pas de cartes publiques et une seule carte privée pour deux joueurs impliqués.
+Les nœuds jaunes représentent les états du jeu où le joueur n°1 agit, les nœuds bleus représentent les états du jeu où le joueur n°2 agit, les bords représentent les actions et donc les transitions entre les états du jeu.
+
+Les lignes pointillées relient les ensembles d'informations. Dans notre exemple, deux ensembles d'informations pour le joueur 2 sont présentés. Le joueur bleu n'est pas en mesure de faire la distinction entre les nœuds connectés par une seule ligne pointillée. Il n'a connaissance que de l'action publique jouée par le joueur jaune et de sa carte privée J.
+
+Le nœud de chance violet est un type spécial de nœud où aucune décision n'est prise mais où une action est effectuée. Dans Kuhn Poker, il n'y a qu'un seul nœud de chance qui distribue les mains. Au Texas Hold'em, ces actions sont des mains initiales ou des transactions de cartes publiques. Le nœud Chance a une interface similaire à «un nœud de joueur», mais ce n'est le point de décision d'aucun joueur - il fait partie du jeu, un environnement qui se trouve être aléatoire.
 
 
-De plus, même si la valeur du jeu au poker n'est peut-être pas nulle (y a-t-il une "symétrie d'avantage" entre la position du croupier et l'inégalité des blinds ?) À long terme, elle disparaîtra à zéro parce que dans le tête-à-tête NLTH le bouton du croupier se déplace de d'un joueur à l'autre entre les tours, jouer à Nash Equilibrium n'entraînera alors en pratique aucun gain (vous ne perdrez pas en le jouant dans l'attente). L'exploitabilité d'une stratégie d'une paire d'équilibre de Nash est nulle - cela signifie que si vous la jouez, la meilleure stratégie d'exploitation de votre adversaire aura un gain nul en attente. Vous êtes assuré de tirer dans le pire des cas.
-
-
-
-
-### 2. Historique
+### 4. Historique
 
 2019 : Pluribus
 2017 : Libratus
@@ -211,7 +235,7 @@ All the Poker programs presented so far used some form of Counterfactual Regret 
 
 
 
-### 3. Poker en ligne & bots
+### 5. Poker en ligne & bots
 
 - Pokerstars et Winamax reçoivent chaque mois plusieurs centaines de mails de la part de joueurs estimant avoir affronté un bot
 Article [Usbek & Rica](https://usbeketrica.com/fr/article/poker-en-ligne-les-bots-finiront-ils-par-chasser-les-humains)
@@ -225,6 +249,26 @@ de nommbre
 ### 2. Counterfactual Regret Minimization (CFR) algorithm
 - vanilla cfr
 - monte carlo cfr 
+
+**2.1 Concept principal du CFR = le regret**
+
+Le concept de regret est central dans les problèmes de prise de décision répétée dans un environnement incertain (=online learning) 
+
+Exemple :
+- contexte incertain : résultats de matchs de NBA
+- times t : à des moments consécutifs times t on reçoit des prédictions d'experts NBA
+- H : notre algorithme H va répartir notre confiance entre nos différents experts, cad va proposer un vecteur de distribution de probabilité pt sur nos N experts. Pour ça, il va utiliser des conseils historiques et des pertes historiques pour produire de la "confiance". H(advices, history) = pt
+- ltH = Une fois que le vrai résultat de NBA est révèlé, un vecteur de perte lt évalue nos N experts. Le vecteur de perte lt est un vecteur de taille N qui attribue des pertes pour chaque avis d'expert au temps t
+- LtH = la perte totale peut être calculée comme une somme pondérée des pertes des experts individuels
+- Lti = nous pouvons définir une perte totale pour un seul expert i
+
+Le regret au temps t = la différence entre la perte totale de notre algorithme (LtH) et la meilleure perte unique (Lti) d'expert (= l'expert qui a donné les meilleurs conseils). Le regret peut être exprimé par la réflexion suivante : Si seulement j'écoutais le numéro d'expert i tout le temps, la perte totale serait la plus faible.
+
+**2.2 No regret learning**
+
+We say that an online algorithm H learns without regret if in the limit (as T, all time steps, goes to infinity) its average regret goes to zero in worst case – meaning no single expert is better than H in the limit – there is no regret towards single expert.
+
+Regret matching est un exemple de no-regret learning algorithm 
 
 
 ### 3. Abstractions

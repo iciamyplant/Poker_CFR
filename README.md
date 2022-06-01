@@ -147,21 +147,26 @@ Heads Up No Limit Texas Hold'em Poker = is an example of two person zero-sum fin
 
 Ce type de jeu implique certains théorèmes ou modèles.
 
-### 2. Stratégie comportementale
+### 2. Avoir une stratégie au Poker
 
 Dans des jeux comme le poker, les actions choisies via des stratégies ne peuvent pas être entièrement déterministes (Les stratégies doivent être aléatoires, la randomisation est nécessaire, sinon l'adversaire connaît notre modèle de pari). Dans la théorie des jeux, une randomisation des décisions en points de décision est réalisée via des probabilités.
 
 **Behavioral Strategy** = consiste en une description complète de la façon d'agir via des distributions de probabilités sur les actions aux points de décision. Imaginons pour une main 8/9 au preflop, on peut avoir une distribution de probabilités : 0.15 check, 0.35 bet 5, 0.4 bet 10, 0.05 all-in ... Les probabilités guarantissent la randomization puisqu'à chaque action différente des probabilités différentes, ce qui limite l'exploitabilité.
 
-- Profils de stratégie (=ensemble des stratégies) composé de 2 stratégies au HUNLTH, une par joueur)
+<img width="629" alt="Behavioral_strategy" src="https://user-images.githubusercontent.com/57531966/171422678-84a97163-40ac-4f6c-8299-50c276898253.png">
+
+- Profils de stratégie (=ensemble des stratégies) composé de 2 stratégies au HUNLTH, une par joueur - bleu et jaune)
 - Un tour de jeu serait une séquence d'actions tirées de distributions de probabilités données par les stratégies des joueurs (+ actions du croupier comme chance)
 - Une fois qu'un jeu est terminé, les joueurs gagnent leurs utilités (ou gains). Parce que nous sommes installés dans un cadre probabiliste, chaque joueur a des utilités attendues. Cela signifie que nous pouvons évaluer les stratégies via les utilités attendues.
 
-### 2. Stratégie optimale au Poker : Nash Equilibrium
+### 2. Nash Equilibrium, la stratégie optimale
 
-Y a t-il une stratégie optimale au Poker ? Selon la théorie des jeux, oui.
+Y a t-il une stratégie optimale au Poker ? Selon la théorie des jeux, oui : le profil de stratégie Nash-Equilibrium. Et l'algorithme CFR tente d'en faire une approximation.
 
-Nash Equilibrium = profil de stratégie (ensemble de stratégies pour tous les joueurs impliqués) tel qu'aucun joueur n'a d'incitation à dévier. Il représente un équilibre entre les joueurs, **point où aucun joueur ne gagne à changer de stratégie**. Nous disons que les deux joueurs jouent un profil de stratégie Nash-Equilibrium si changer sa stratégie pour un joueur n'apporte aucune valeur supplémentaire (en termes d'utilité) lorsque l'autre joueur joue sa stratégie d'origine (il ne la change pas) - les deux joueurs jouent les meilleures réponses à l'autre.
+Nash Equilibrium = profil de stratégie tel qu'aucun joueur n'a d'incitation à dévier. Il représente un équilibre entre les joueurs, **point où aucun joueur ne gagne à changer de stratégie**. Nous disons que les deux joueurs jouent un profil de stratégie Nash-Equilibrium si changer sa stratégie pour un joueur n'apporte aucune valeur supplémentaire (en termes d'utilité) lorsque l'autre joueur joue sa stratégie d'origine - les deux joueurs jouent les meilleures réponses l'un à l'autre.
+
+
+
 
 **Est-ce que Nash Equilibrium existe pour le poker ?**
 - Nash’s Existence Theorem indique que pour les jeux finis (dont le poker), l'équilibre de Nash est garanti d'exister

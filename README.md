@@ -88,13 +88,6 @@ Theory of Games and Economic Behavior, John von Neumann et Oskar Mergenstern, 19
 
 Les situations interactives peuvent avoir une nature très différente en fonction de nombreux facteurs comme le nombre de joueurs, la structure des utilitaires ou l'ordre des coups, etc. Sur la base de ces caractéristiques, nous pouvons classer les jeux en types (tel que les jeux à somme nulle, jeux simultanés, jeux séquentiels, jeux à information complète et information incomplète, etc.)
 
-Heads Up No Limit Texas Hold'em Poker = is an example of two person zero-sum finite game with imperfect information and chance moves
-- **two person** : deux personnes car il y a deux joueurs impliqués
-- **finite game** : implique qu'il y a un nombre fini d'histoires possibles d'actions. Au poker, ce nombre est énorme mais en effet fini.
-- **zero-sum** :le jeu est considéré comme à somme nulle si tous les gains (les joueurs gagnent/perdent) totalisent zéro. Cela vaut pour le poker. À moins qu'il n'y ait un match nul où aucun joueur ne gagne quoi que ce soit, le pot va à l'un des joueurs, ce qui fait que l'autre perd l'équivalent
-- **imperfect information** : signifie que les joueurs ne sont pas conscients de l'état exact du jeu - il y a des informations cachées dont les joueurs ne sont pas conscients. Au poker, cette information cachée est la main de l'adversaire.
-- **chance moves** : signifie qu'il y a certains éléments aléatoires du jeu sur lesquels les joueurs n'ont aucun contrôle - au poker, ce sont des tours d'enchères aléatoires consécutifs ou les cartes initiales distribuées
-
 Classification | Définition| Exemple |
 |------|----------|-------|
 | Jeux à somme nulle (=strictement compétitifs) / Jeux à somme non-nulle |jeu à somme nulle = les jeux où l'intérêt de l'un des deux joueurs est strictement opposé à l'intérêt de l'autre joueur. Si les préférences des joueurs sont représentées par une fonction de gain ou une fonction d'utilité, alors la somme des deux fonctions est toujours égale à 0|A somme nulle : pierre-feuille-ciseaux, Poker, échecs. Non-nulle : dilemme du prisonnier (dans certains cas, les deux joueurs peuvent perdre).|
@@ -142,18 +135,27 @@ Stratégie = décrit comment agir dans toutes les situations possibles. Une stra
 
 # III - Poker Bots
 
-### 1. Strétegie générale
 
-Dans des jeux comme le poker, les actions choisies via des stratégies ne peuvent pas être entièrement déterministes. La randomisation est nécessaire - si les joueurs ne le faisaient pas, leur modèle de pari serait rapidement appris et exploité. Dans la théorie des jeux, une randomisation des décisions en points de décision est réalisée via des probabilités.
+### 1. Type de jeu du HU NLTH
 
-**Behavioral Strategy** = consiste en un ensemble de distributions de probabilités sur les actions aux points de décision. Imaginons pour une main 8/9 au preflop, on peut avoir une distribution de probabilités : 0.15 check, 0.35 bet 5, 0.4 bet 10, 0.05 all-in ...
+Heads Up No Limit Texas Hold'em Poker = is an example of two person zero-sum finite game with imperfect information and chance moves
+- **two person** : deux personnes car il y a deux joueurs impliqués
+- **finite game** : implique qu'il y a un nombre fini d'histoires possibles d'actions. Au poker, ce nombre est énorme mais en effet fini.
+- **zero-sum** :le jeu est considéré comme à somme nulle si tous les gains (les joueurs gagnent/perdent) totalisent zéro. Cela vaut pour le poker. À moins qu'il n'y ait un match nul où aucun joueur ne gagne quoi que ce soit, le pot va à l'un des joueurs, ce qui fait que l'autre perd l'équivalent
+- **imperfect information** : signifie que les joueurs ne sont pas conscients de l'état exact du jeu - il y a des informations cachées dont les joueurs ne sont pas conscients. Au poker, cette information cachée est la main de l'adversaire.
+- **chance moves** : signifie qu'il y a certains éléments aléatoires du jeu sur lesquels les joueurs n'ont aucun contrôle - au poker, ce sont des tours d'enchères aléatoires consécutifs ou les cartes initiales distribuées
 
-**Profil Strategy** = ensemble de stratégies pour tous les joueurs impliqués dans une partie. Pour nous 2 stratégies (une par joueur)
+Ce type de jeu implique certains théorèmes ou modèles.
 
+### 2. Stratégie comportementale
 
-- Étant donné un profil de stratégie, nous pouvons déjà imiter le jeu de poker entre joueurs
-- Un jeu unique serait une séquence d'actions tirées de distributions de probabilités données par les stratégies des joueurs (+ actions du croupier comme chance)
-- Une fois qu'un jeu est terminé, les joueurs gagnent leurs utilités (ou gains). Parce que nous sommes installés dans un cadre probabiliste, nous pouvons considérer les utilités attendues pour les joueurs. Chaque profil de stratégie indique alors directement les utilités attendues (gains attendus) pour les deux joueurs. Cela signifie que nous pouvons évaluer les stratégies et les profils de stratégie via les utilités attendues
+Dans des jeux comme le poker, les actions choisies via des stratégies ne peuvent pas être entièrement déterministes (Les stratégies doivent être aléatoires, la randomisation est nécessaire, sinon l'adversaire connaît notre modèle de pari). Dans la théorie des jeux, une randomisation des décisions en points de décision est réalisée via des probabilités.
+
+**Behavioral Strategy** = consiste en une description complète de la façon d'agir via des distributions de probabilités sur les actions aux points de décision. Imaginons pour une main 8/9 au preflop, on peut avoir une distribution de probabilités : 0.15 check, 0.35 bet 5, 0.4 bet 10, 0.05 all-in ... Les probabilités guarantissent la randomization puisqu'à chaque action différente des probabilités différentes, ce qui limite l'exploitabilité.
+
+- Profils de stratégie (=ensemble des stratégies) composé de 2 stratégies au HUNLTH, une par joueur)
+- Un tour de jeu serait une séquence d'actions tirées de distributions de probabilités données par les stratégies des joueurs (+ actions du croupier comme chance)
+- Une fois qu'un jeu est terminé, les joueurs gagnent leurs utilités (ou gains). Parce que nous sommes installés dans un cadre probabiliste, chaque joueur a des utilités attendues. Cela signifie que nous pouvons évaluer les stratégies via les utilités attendues.
 
 ### 2. Stratégie optimale au Poker : Nash Equilibrium
 

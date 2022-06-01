@@ -266,7 +266,21 @@ Le regret au temps t = la différence entre la perte totale de notre algorithme 
 
 **2.2 No regret learning**
 
-We say that an online algorithm H learns without regret if in the limit (as T, all time steps, goes to infinity) its average regret goes to zero in worst case – meaning no single expert is better than H in the limit – there is no regret towards single expert.
+Un online algorithm apprend sans regret si = si dans la limite (quand T, le all time steps, tend vers l'infini) son regret moyen tend vers zéro dans le pire des cas - ce qui signifie qu'aucun expert n'est meilleur que H dans la limite - il n'y a pas de regret envers un seul expert
+
+- Y a plein de online learning algorithms
+- Mais c'est pas tous des no-regret learning algorithms
+
+Si notre algorithme H produit un vecteur de probabilité qui place toute la masse de probabilité sur un expert, il n'apprendra pas sans regret. La randomisation est nécessaire. 
+
+**2.3 No regret learning with Regret Matching**
+
+Regret Matching = algorithme d'apprentissage sans regret qui emprunte sa logique de mise à jour à Polynomially Weighted Average Forecaster (PWA) (réalisé via certains choix d'hyperparamètres).
+
+- L'algorithme d'appariement des regrets Ĥ maintiendra le vecteur de poids attribué aux experts
+- Une fois que le vecteur de perte (encore une fois, représentant les conséquences des conseils de nos experts) est révélé, nous pouvons calculer le regret cumulé par rapport à un expert i au temps t (il exprime comment nous regrettons de ne pas avoir écouté un expert particulier i)
+
+
 
 Regret matching est un exemple de no-regret learning algorithm 
 

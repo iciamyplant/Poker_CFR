@@ -237,38 +237,50 @@ de nommbre
 
 ### 1. Concept principal du CFR = le regret
 
-Le concept de regret est central dans les problèmes de prise de décision répétée dans un environnement incertain (=online learning) 
+Le concept de regret est central dans les problèmes de prise de décision répétée dans un environnement incertain (= on appelle ça online learning) 
 
 Exemple :
 - contexte incertain : résultats de matchs de NBA
-- times t : à des moments consécutifs times t on reçoit des prédictions d'experts NBA
-- H : notre algorithme H va répartir notre confiance entre nos différents experts, cad va proposer un vecteur de distribution de probabilité pt sur nos N experts. Pour ça, il va utiliser des conseils historiques et des pertes historiques pour produire de la "confiance". H(advices, history) = pt
-- ltH = Une fois que le vrai résultat de NBA est révèlé, un vecteur de perte lt évalue nos N experts. Le vecteur de perte lt est un vecteur de taille N qui attribue des pertes pour chaque avis d'expert au temps t
-- LtH = la perte totale peut être calculée comme une somme pondérée des pertes des experts individuels
-- Lti = nous pouvons définir une perte totale pour un seul expert i
+- times **t** : à des moments consécutifs times t on reçoit des prédictions d'experts NBA
+- **H** : notre algorithme H a pour objectif de répartir notre confiance entre les différents experts. Cad va calculer un vecteur de distribution de probabilité pt sur nos **N** experts.
+- H(advices, history) = pt
+- **pt** : où pt est le vecteur de distribution de probabilités de confiance sur les N experts.
+- Après avoir le résultat réel des matchs :
+- **lt** : vecteur de perte qui évalue les N experts. Assigne une perte pour chaque conseil d'expert N à un time t
 
-Le regret au temps t = la différence entre la perte totale de notre algorithme (LtH) et la meilleure perte unique (Lti) d'expert (= l'expert qui a donné les meilleurs conseils). Le regret peut être exprimé par la réflexion suivante : Si seulement j'écoutais le numéro d'expert i tout le temps, la perte totale serait la plus faible.
+Avec le vecteur de perte lt + la distribution de confiance pt, on peut calculer la perte attendue **ltH** :
+**ltH = somme pour chaque i de N de pti * lti**
+
+En considérant toute la temporalité T on peut calculer la perte totale attendue de notre algorithme
+**LTH = somme pour chaque t de T de ltH**
+
+Et on peut calculer la perte totale pour un seule expert i :
+**Lti = somme pour chaque t de T de lti**
+
+Le regret au temps t = la différence entre la perte totale de notre algorithme (LtH) et la meilleure perte unique (Lti) d'expert (= l'expert qui a donné les meilleurs conseils). Le regret peut être exprimé par la réflexion suivante : Si seulement j'avais écouté l'expert i tout le temps, la perte totale serait la plus faible.
+
+**R = LTH - minLTi**
 
 ### 2. No regret learning
 
-Un online algorithm apprend sans regret si = si dans la limite (quand T, le all time steps, tend vers l'infini) son regret moyen tend vers zéro dans le pire des cas - ce qui signifie qu'aucun expert n'est meilleur que H dans la limite - il n'y a pas de regret envers un seul expert
+Un online algorithm (algorithms that build predictive models by processing data one at the time) apprend sans regret si quand T tend vers l'infini, la moyenne de son regret tend vers 0 au pire des cas (sinon vers + que 0). 
+==> dans ce cas, ça veut dire qu'aucun expert n'est meilleur que notre algorithme H. Il n'y a regret envers aucun expert.
 
-- Y a plein de online learning algorithms
+- Y a plein de online learning algorithms (=algorithms that build predictive models by processing data one at the time.)
 - Mais c'est pas tous des no-regret learning algorithms
 
 Si notre algorithme H produit un vecteur de probabilité qui place toute la masse de probabilité sur un expert, il n'apprendra pas sans regret. La randomisation est nécessaire. 
 
-**2.3 No regret learning with Regret Matching**
+**2.3 Exemple d'algorithme No regret learning : le Regret Matching**
 
-Regret Matching = algorithme d'apprentissage sans regret qui emprunte sa logique de mise à jour à Polynomially Weighted Average Forecaster (PWA) (réalisé via certains choix d'hyperparamètres).
+Regret matching est un exemple de no-regret learning algorithm.
 
-- L'algorithme d'appariement des regrets Ĥ maintiendra le vecteur de poids attribué aux experts
-- Une fois que le vecteur de perte (encore une fois, représentant les conséquences des conseils de nos experts) est révélé, nous pouvons calculer le regret cumulé par rapport à un expert i au temps t (il exprime comment nous regrettons de ne pas avoir écouté un expert particulier i)
+Regret Matching = algorithme d'apprentissage sans regret qui emprunte sa logique de mise à jour au Polynomially Weighted Average Forecaster (PWA)
 
-
-
-Regret matching est un exemple de no-regret learning algorithm 
-
+- L'algorithme Regret Matching Ĥ maintiendra le vecteur de poids attribué aux experts
+- Une fois que le vecteur de perte (représentant les conséquences des conseils de nos experts) est révélé, nous pouvons calculer le regret cumulé par rapport à un expert i au temps t (il exprime comment nous regrettons de ne pas avoir écouté un expert particulier i)
+- une fois qu'on a les regrets cumulés par expert, les poids des experts sont mis à jour avec la formule : ..
+- et enfin les composantes de notre vecteur pt en question (produit de l'algorithme) sont données par : ..
 
 
 # IV - Create a Poker Bot for Heads-up NLTH

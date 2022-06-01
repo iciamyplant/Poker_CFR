@@ -163,9 +163,15 @@ Dans des jeux comme le poker, les actions choisies via des stratégies ne peuven
 
 Y a t-il une stratégie optimale au Poker ? Selon la théorie des jeux, oui : le profil de stratégie Nash-Equilibrium. Et l'algorithme CFR tente d'en faire une approximation.
 
-Nash Equilibrium = profil de stratégie tel qu'aucun joueur n'a d'incitation à dévier. Il représente un équilibre entre les joueurs, **point où aucun joueur ne gagne à changer de stratégie**. Nous disons que les deux joueurs jouent un profil de stratégie Nash-Equilibrium si changer sa stratégie pour un joueur n'apporte aucune valeur supplémentaire (en termes d'utilité) lorsque l'autre joueur joue sa stratégie d'origine - les deux joueurs jouent les meilleures réponses l'un à l'autre.
+Nash Equilibrium = profil de stratégie tel qu'aucun joueur n'a d'incitation à dévier. Equilibre entre les joueurs, **point où aucun joueur ne gagne à changer de stratégie**. Les deux joueurs jouent un profil de stratégie Nash-Equilibrium si changer sa stratégie pour un joueur n'apporte aucune valeur supplémentaire (en termes d'utilité) lorsque l'autre joueur joue sa stratégie d'origine - les deux joueurs jouent les meilleures réponses l'un à l'autre (c'est le cas en bas à gauche de la figure en dessous).
 
+Exemple : deux marchands de glace, bleu et rouge se partagent la plage. Imagineons que chaque plagiste va au glacier le plus proche.
+- en haut à gauche, ils gagneront la même utilité
+- en haut à droite, le glacier bleu a + d'utilité
+- en bas a gauche = Nash equilibirum (aucun glacier ne gagne à changer de stratégie. Si l'un bouge, peu importe de quel côté, il perdera de la surface de plage. Même si ça n'est pas forcément la solution optimale, car les plagistes aux extrémités peuvent être découragés du chemin à parcourir)
+- en bas à droite, le glacier bleu joue à l'équilibre de Nash, le glacier rouge non. Le glacier bleu a + d'utilité
 
+![nash_equilibrium](https://user-images.githubusercontent.com/57531966/171424601-4f523508-0bb5-46a5-839d-3c79092613af.png)
 
 
 **Est-ce que Nash Equilibrium existe pour le poker ?**
@@ -176,12 +182,9 @@ Nash Equilibrium = profil de stratégie tel qu'aucun joueur n'a d'incitation à 
 - Toutes les valeurs d'équilibre de Nash au poker sont égales - elles produisent la même utilité attendue
 - les NE sont interchangeables : vous pouvez jouer n'importe quelle stratégie contre n'importe quelle stratégie adverse à partir de n'importe quel équilibre de Nash et vous atterrirez avec le même gain : la valeur du jeu
 
-**Sommes-nous assurés d'atterrir sur le meilleur NE ?**
-- si vous choisissez de jouer n'importe quelle stratégie à partir de n'importe quel équilibre de Nash, vous êtes assuré de ne pas perdre
-- il est hautement improbable que votre adversaire humain joue la stratégie NE, vous le surpasserez dans l'attente car il s'écartera de sa stratégie NE et il obtiendra donc un gain inférieur
-- et parce que le jeu de poker est un jeu à somme nulle pour deux joueurs, cela signifie de manière équivalente que vous obtiendrez des gains plus élevés
+Si l'on choisi de jouer n'importe quelle stratégie à partir de n'importe quel équilibre de Nash, on est assuré de ne pas perdre. Il est hautement improbable que votre adversaire humain joue la stratégie NE, vous le surpasserez surement car il s'écartera de sa stratégie NE (en bas à droite) et il obtiendra donc un gain inférieur. Or le jeu de poker est un jeu à somme nulle pour deux joueurs, ce qui signifie que nous obtiendrons surement des gains plus élevés.
 
-==> En pratique donc, jouer à Nash Equilibrium permet de gagne en attente (contre des humains sujets aux erreurs)
+==> En pratique donc, jouer à Nash Equilibrium permet en principe de gagner (contre des humains sujets aux erreurs)
 ==> Notre algorithme CFR – produit une approximation du profil de stratégie Nash-Equilibrium
 
 ### 3. Arbre

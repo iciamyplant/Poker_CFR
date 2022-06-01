@@ -68,13 +68,6 @@ BB ---- SB ---- BOUTON
 |dernier joueur à parler est BB| dernier joueur à parler est le dealer | dernier joueur à parler est le dealer|dernier joueur à parler est le dealer|
 |quand tout le monde est ok --> FLOP|quand tout le monde est ok --> TURN|quand tout le monde est ok --> RIVER|quand tout le monde est ok --> SHOWDOWN|BB, SB, D se déplacent d'un cran vers gauche : dealer suivant récupère toutes les cartes, les mélanges, puis effectue une nouvelle distribution des cartes de poker, nouveau coup débute|
 
-
-#### Stratégie
-
-##### 1. La position
-##### 2. Probabilités de première main
-52 cartes, probabilité Brelan = 4,83 %
-
 # II - Théorie des jeux
  
 Theory of Games and Economic Behavior, John von Neumann et Oskar Mergenstern, 1944. La théorie des jeux est un domaine des mathématiques fournissant des outils pratiques pour modéliser et raisonner sur des situations interactives (= des jeux). (Définition : La theorie des jeux permet une analyse formelle des problemes posés par l’interaction strategique d’un groupe d’agents rationnels poursuivant des buts qui leur sont propres).
@@ -136,7 +129,7 @@ Stratégie = décrit comment agir dans toutes les situations possibles. Une stra
 # III - Poker Bots
 
 
-### 1. Type de jeu du HU NLTH
+### 1. Type de jeu du Heads up NLTH
 
 Heads Up No Limit Texas Hold'em Poker = is an example of two person zero-sum finite game with imperfect information and chance moves
 - **two person** : deux personnes car il y a deux joueurs impliqués
@@ -187,62 +180,50 @@ Si l'on choisi de jouer n'importe quelle stratégie à partir de n'importe quel 
 ==> En pratique donc, jouer à Nash Equilibrium permet en principe de gagner (contre des humains sujets aux erreurs)
 ==> Notre algorithme CFR – produit une approximation du profil de stratégie Nash-Equilibrium
 
-### 3. Arbre
+### 3. Poker Game Tree
+
+Tic-tac-toe game tree (= perfect information game):
+
+<img width="505" alt="tictactoe_game_tree" src="https://user-images.githubusercontent.com/57531966/171430225-6d030585-7b2e-4b0b-9730-f030f80a9b19.png">
+
+Kuhn Poker game tree (=imperfect information game):
+<img width="751" alt="Poker_game_tree" src="https://user-images.githubusercontent.com/57531966/171431519-8bc2061b-5553-4149-b834-28564afeb508.png">
+
+Le Kuhn Poker est un poker simplifié où seulement 3 cartes différentes sont distribuées (Q,J,K). Pour 2 joueurs, 1 carte est distribuée par joueur (le joueur a soit un K, soit un J, soit un Q). Il n'y a pas de cartes publiques.
 
 - les nœuds représentent les états du jeu
-- les arêtes représentent la transition les états de jeux, cad les actions jouées
+- les noeuds jaunes représentent les états du jeu où le joueur n°1 (j1) agit, les nœuds bleus représentent les états du jeu où le joueur n°2 (j2) agit
+- ici la distribution des cartes pourraît être (selon la forme carte j1../..carte j2)  : Q/J, K/J, J/Q, Q/K, J/K, K/Q. D'où, 6 noeuds au départ.
+- les arêtes représentent la transition les états de jeux, cad les actions jouées (checker ou bet=miser ici)
+- le chance node est un type spécial de nœud où aucune décision n'est prise mais où une action est effectuée. Ici y a de la chance que lors de la distribution des cartes. Au NLTH y a la distribution des cartes + les cartes publiques. Ce noeud permet de modéliser le facteur chance.
+- on voit que le j2 a la carte J. Mais il se nait pas quelle est la carte du j1. Donc lorsque c'est à lui de joueur il ne sait pas où il se situe, d'où les noeuds sont reliés en pointillés. 
 
-L'arbre de jeu du poker est un peu différent de l'arbre de jeu à informations parfaites (comme les échecs ou l'arbre de jeu de Go).
 
-Tout d'abord, le véritable état du jeu ne peut être observé par aucun des joueurs. Les joueurs ne peuvent voir que leurs propres cartes et ne sont pas conscients des cartes détenues par les autres joueurs. Par conséquent, lorsque nous considérons l'arbre de jeu, nous devons séparer l'état réel du jeu de ce que les joueurs observent. Dans une partie à deux joueurs, il est alors judicieux de considérer différentes perspectives de l'arbre de jeu :
+==> le véritable état du jeu ne peut être observé par aucun des joueurs. Par conséquent, lorsque nous considérons l'arbre de jeu, nous devons séparer l'état réel du jeu de ce que les joueurs observent. Différentes perspectives de l'arbre de jeu :
 
 - le véritable état de jeu - non observable par les joueurs, utile lors de l'apprentissage par l'auto-jeu
-- perspective du joueur #1 - ensemble d'états indiscernables pour le joueur #1 (ses cartes et actions publiques)
-- perspective du joueur #2 - ensemble d'états indiscernables pour le joueur #2 (ses cartes et actions publiques)
+- perspective du joueur #1 - ensemble d'états indiscernables pour le joueur #1 (perspective de ses cartes et des actions publiques)
+- perspective du joueur #2 - ensemble d'états indiscernables pour le joueur #2 (perspective de ses cartes et des actions publiques)
 
-Les perspectives des joueurs sont également appelées ensembles d'informations. L'ensemble d'informations est un ensemble d'états de jeu (nœuds d'arbre de jeu) qui ne peuvent pas être distingués pour un joueur. Dans n'importe quel point de décision au poker, vous devez considérer la main de tous les adversaires possibles à la fois - ils forment un ensemble d'informations. Veuillez noter que les ensembles d'informations pour les deux joueurs dans tous les points de décision au poker sont différents, de même que leur intersection dans le jeu de poker tête-à-tête NLTH est un singleton composé de l'état réel du jeu.
-
-Le point important ici est que - pour le poker - les stratégies comportementales (probabilités sur les actions) sont définies pour des ensembles d'informations, pas pour des états de jeu.
-
-L'existence du hasard peut être modélisée en ajoutant un type supplémentaire de nœud à l'arbre du jeu - le nœud de chance. En plus des nœuds du joueur (où ils agissent), nous considérerons un nœud aléatoire - représentant l'environnement stochastique externe - qui "joue" ses actions de manière aléatoire. Au poker, le hasard prend son tour chaque fois que de nouvelles cartes sont distribuées (mains initiales + tours d'enchères consécutifs) et son caractère aléatoire sera uniforme sur les actions possibles (jeu de cartes).
-
-
-**inserer image arbre**
-
-Veuillez jeter un coup d'œil à l'arbre de jeu de Kuhn Poker - poker simplifié où seulement 3 cartes différentes sont distribuées, il n'y a pas de cartes publiques et une seule carte privée pour deux joueurs impliqués.
-Les nœuds jaunes représentent les états du jeu où le joueur n°1 agit, les nœuds bleus représentent les états du jeu où le joueur n°2 agit, les bords représentent les actions et donc les transitions entre les états du jeu.
-
-Les lignes pointillées relient les ensembles d'informations. Dans notre exemple, deux ensembles d'informations pour le joueur 2 sont présentés. Le joueur bleu n'est pas en mesure de faire la distinction entre les nœuds connectés par une seule ligne pointillée. Il n'a connaissance que de l'action publique jouée par le joueur jaune et de sa carte privée J.
-
-Le nœud de chance violet est un type spécial de nœud où aucune décision n'est prise mais où une action est effectuée. Dans Kuhn Poker, il n'y a qu'un seul nœud de chance qui distribue les mains. Au Texas Hold'em, ces actions sont des mains initiales ou des transactions de cartes publiques. Le nœud Chance a une interface similaire à «un nœud de joueur», mais ce n'est le point de décision d'aucun joueur - il fait partie du jeu, un environnement qui se trouve être aléatoire.
+Perspective d'un joueur = information sets (ensemble d'états de jeux ou nodes qui ne peuvent pas être distingués pour un autre joueur)
+Les information sets pour les deux joueurs dans tous les points de décision au poker sont différents. Pour le poker, les stratégies comportementales (probabilités sur les actions) sont définies pour des ensembles d'informations, pas pour des états de jeu.
 
 
 ### 4. Historique
 
-2019 : Pluribus
-2017 : Libratus
+**2019** : Pluribus
 
-- 20 jours d’affrontements dans un casino de Pittsburgh
-- 120,000 mains jouées au no-limit Texas Hold'em
-- a combattu contre 4 joueurs professionnels de Poker (Dong Kim, Jason Les, Jimmy Chou et Daniel McAulay), affrontés en duel dans des parties simultanées
-- IA crée par 2 chercheurs de Carnegie Mellon University
-- Brains vs. AI competition
-- article cité par un des chercheurs Cernegie [site](https://www.engadget.com/2017-02-10-libratus-ai-poker-winner.html)
+**2017** : Libratus (20 jours d’affrontements dans un casino de Pittsburgh, 120.000 mains jouées au Heads up no-limit Texas Hold'em, a combattu contre 4 joueurs professionnels de Poker (Dong Kim, Jason Les, Jimmy Chou et Daniel McAulay), affrontés en duel dans des parties simultanées, IA crée par 2 chercheurs de Carnegie Mellon University, Brains vs. AI competition, article cité par un des chercheurs Cernegie [site](https://www.engadget.com/2017-02-10-libratus-ai-poker-winner.html))
 
-2015 : AI Claudico
+**2015** : AI Claudico
 
-University of Alberta Computer Poker Research Group [leur site](https://webdocs.cs.ualberta.ca/~games/poker/)
-- DeepStackAI (2017)
-- Cepheus (2015)
-- ... Poki, PsOpt
-- Polaris (2007) : s'est mesuré à deux joueurs de poker américains de renommée mondiale, Phil Laak et Ali Eslami, lors de la Conférence annuelle sur l'intelligence artificielle en 2007 à Vancouver. Les deux joueurs humains ont gagné de justesse après quatre parties, avec un match nul, une victoire pour le logiciel et deux victoires pour les hommes.
+**2015** : Cepheus (University of Alberta too)
 
-All the Poker programs presented so far used some form of Counterfactual Regret Minimization as its core component. In Cepheus its fast variant was used to pre-compute Nash equilibrium offline, DeepStack used CFR-like algorithm (aided by neural networks) for subgame solving and finally in Libratus blueprint strategy (Nash Equilibrium of a game abstraction) was computed with monte carlo counterfactual regret minimization.
+**2017** : DeepStackAI (University of Alberta Computer Poker Research Group [leur site](https://webdocs.cs.ualberta.ca/~games/poker/))
 
+**2007** : Polaris (s'est mesuré à deux joueurs de poker américains de renommée mondiale, Phil Laak et Ali Eslami, lors de la Conférence annuelle sur l'intelligence artificielle en 2007 à Vancouver. Les deux joueurs humains ont gagné de justesse après quatre parties, avec un match nul, une victoire pour le logiciel et deux victoires pour les hommes)
 
-- En 1997, Deep Blue vainquait le maître des échecs Garry Kasparov.
-- En 2016, AlphaGo venait à bout du meilleur joueur de go, Lee Sedol
-
+===> Tous les programmes de Poker utilisent une forme de **Counterfactual Regret Minimization** comme composante principale (Par ex, DeepStack a utilisé un algorithme de type CFR (aidé par des réseaux de neurones) pour la résolution de sous-jeux, la stratégie de Libratus (équilibre de Nash d'une abstraction de jeu) a été calculé avec le Monte Carlo counterfactual regret minimization).
 
 
 ### 5. Poker en ligne & bots
@@ -252,15 +233,9 @@ Article [Usbek & Rica](https://usbeketrica.com/fr/article/poker-en-ligne-les-bot
 de nommbre
 
 
-# III - Create a Poker Bot for Heads-up NLTH
+# III - Understand the CFR algorithm
 
-### 1. Reinforcement learning
-
-### 2. Counterfactual Regret Minimization (CFR) algorithm
-- vanilla cfr
-- monte carlo cfr 
-
-**2.1 Concept principal du CFR = le regret**
+### 1. Concept principal du CFR = le regret
 
 Le concept de regret est central dans les problèmes de prise de décision répétée dans un environnement incertain (=online learning) 
 
@@ -274,7 +249,7 @@ Exemple :
 
 Le regret au temps t = la différence entre la perte totale de notre algorithme (LtH) et la meilleure perte unique (Lti) d'expert (= l'expert qui a donné les meilleurs conseils). Le regret peut être exprimé par la réflexion suivante : Si seulement j'écoutais le numéro d'expert i tout le temps, la perte totale serait la plus faible.
 
-**2.2 No regret learning**
+### 2. No regret learning
 
 Un online algorithm apprend sans regret si = si dans la limite (quand T, le all time steps, tend vers l'infini) son regret moyen tend vers zéro dans le pire des cas - ce qui signifie qu'aucun expert n'est meilleur que H dans la limite - il n'y a pas de regret envers un seul expert
 
@@ -295,8 +270,14 @@ Regret Matching = algorithme d'apprentissage sans regret qui emprunte sa logique
 Regret matching est un exemple de no-regret learning algorithm 
 
 
-### 3. Abstractions
 
+# IV - Create a Poker Bot for Heads-up NLTH
+
+### 1. Reinforcement learning
+### 2. Counterfactual Regret Minimization (CFR) algorithm
+- vanilla cfr
+- monte carlo cfr 
+### 3. Abstractions
 ### 4. Nested subgame solving
 
 

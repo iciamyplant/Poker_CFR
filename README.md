@@ -271,7 +271,7 @@ Un online algorithm (algorithms that build predictive models by processing data 
 
 Si notre algorithme H produit un vecteur de probabilité qui place toute la masse de probabilité sur un expert, il n'apprendra pas sans regret. La randomisation est nécessaire. 
 
-**2.3 Exemple d'algorithme No regret learning : le Regret Matching**
+### 3. Exemple d'algorithme No regret learning : le Regret Matching**
 
 Regret matching est un exemple de no-regret learning algorithm.
 

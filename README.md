@@ -189,7 +189,7 @@ Tic-tac-toe game tree (= perfect information game):
 Kuhn Poker game tree (=imperfect information game):
 <img width="751" alt="Poker_game_tree" src="https://user-images.githubusercontent.com/57531966/171431519-8bc2061b-5553-4149-b834-28564afeb508.png">
 
-Le Kuhn Poker est un poker simplifié où seulement 3 cartes différentes sont distribuées (Q,J,K). Pour 2 joueurs, 1 carte est distribuée par joueur (le joueur a soit un K, soit un J, soit un Q). Il n'y a pas de cartes publiques.
+Le Kuhn Poker est un poker simplifié où seulement 3 cartes différentes sont distribuées (Q,J,K). Pour 2 joueurs, 1 carte est distribuée par joueur (le joueur a soit un K, soit un J, soit un Q). Il n'y a pas de cartes publiques. Celui qui a la carte la plus haute gagne. On ne peut pas re-miser, y a un seul tour.
 
 - les nœuds représentent les états du jeu
 - les noeuds jaunes représentent les états du jeu où le joueur n°1 (j1) agit, les nœuds bleus représentent les états du jeu où le joueur n°2 (j2) agit

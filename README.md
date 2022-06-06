@@ -233,7 +233,7 @@ Article [Usbek & Rica](https://usbeketrica.com/fr/article/poker-en-ligne-les-bot
 de nommbre
 
 
-# III - Understand the CFR algorithm
+# III - Requirements to understand the CFR algorithm
 
 ### 1. Concept principal du CFR = le regret
 
@@ -248,10 +248,10 @@ Exemple :
 - Après avoir le résultat réel des matchs :
 - **lt** : vecteur de perte qui évalue les N experts. Assigne une perte pour chaque conseil d'expert N à un time t
 
-Avec le vecteur de perte lt + la distribution de confiance pt, on peut calculer la perte attendue **ltH** :
+Avec le vecteur de perte lt + la distribution de confiance pt, on peut calculer **la perte attendue** **ltH** :
 **ltH = somme pour chaque i de N de pti * lti**
 
-En considérant toute la temporalité T on peut calculer la perte totale attendue de notre algorithme
+En considérant toute la temporalité T on peut calculer **la perte totale attendue** de notre algorithme
 **LTH = somme pour chaque t de T de ltH**
 
 Et on peut calculer la perte totale pour un seule expert i :
@@ -261,29 +261,70 @@ Le regret au temps t = la différence entre la perte totale de notre algorithme 
 
 **R = LTH - minLTi**
 
-### 2. No regret learning
+### 2. No regret learning et l'exemple du Regret Matching
 
 Un online algorithm (algorithms that build predictive models by processing data one at the time) apprend sans regret si quand T tend vers l'infini, la moyenne de son regret tend vers 0 au pire des cas (sinon vers + que 0). 
 ==> dans ce cas, ça veut dire qu'aucun expert n'est meilleur que notre algorithme H. Il n'y a regret envers aucun expert.
 
 - Y a plein de online learning algorithms (=algorithms that build predictive models by processing data one at the time.)
 - Mais c'est pas tous des no-regret learning algorithms
-
-Si notre algorithme H produit un vecteur de probabilité qui place toute la masse de probabilité sur un expert, il n'apprendra pas sans regret. La randomisation est nécessaire. 
-
-### 3. Exemple d'algorithme No regret learning : le Regret Matching**
-
-Regret matching est un exemple de no-regret learning algorithm.
+- Regret matching est un exemple de no-regret learning algorithm
 
 Regret Matching = algorithme d'apprentissage sans regret qui emprunte sa logique de mise à jour au Polynomially Weighted Average Forecaster (PWA)
 
-- L'algorithme Regret Matching Ĥ maintiendra le vecteur de poids attribué aux experts
+- Le but de l'algorithme Regret Matching Ĥ est de maintenir le vecteur de "poids" attribué aux experts
 - Une fois que le vecteur de perte (représentant les conséquences des conseils de nos experts) est révélé, nous pouvons calculer le regret cumulé par rapport à un expert i au temps t (il exprime comment nous regrettons de ne pas avoir écouté un expert particulier i)
-- une fois qu'on a les regrets cumulés par expert, les poids des experts sont mis à jour avec la formule : ..
-- et enfin les composantes de notre vecteur pt en question (produit de l'algorithme) sont données par : ..
+
+==> Pour résumer, le principe est là d'observer tous nos experts et garder des statistiques sur leurs performances au fil du temps : notamment via les regrets cumulés positifs pour chacun des experts. Ce regret exprime combien nous gagnerions si nous abandonnions notre schéma de distribution de « confiance » actuel et que nous écoutions simplement un seul expert tout le temps.
+
+- Comme au prochain tour, nous ne voulons pas écouter les experts qui ont un regret cumulatif négatif (c'est-à-dire que nous ne regrettons pas de ne pas les avoir « écoutés »), nous les omettons - d'où (Ri,t)+ dans la formule qui permet de mettre à jour les poids des experts : ..
+- Cela permet d'aboutir au résultat de l'algorithme pt : le vecteur de confiance. 
 
 
-# IV - Create a Poker Bot for Heads-up NLTH
+### 3. No Regret Learning & Théorie des jeux
+
+Exemple : 2 joueurs jouent à pierre feuille ciseaux de manière répétitive. Du point de vue du joueur A :
+- avant d'agir, il dispose de 3 experts proposant chacun une action (la pierre - la feuille - les ciseaux)
+- il choisi une action selon la distribution des probabilités des experts
+- quand les deux joueurs ont joué, on calcule les gains. Le gain de A est une récompense pour avoir joué telle action. Mais il peut aussi calculer combien il aurait gagné s'il avait joué les autres actions. En ressort un vecteur de récompense.
+
+==> Si on intègre un algorithme H qui reprend comment le joueur A apprend à distribuer sa confiance aux experts, on retombe sur quelque chose de semblable à ce qui a été vu plus haut, sauf qu'à la place des pertes, on reçoit des récompenses.
+
+regret moyen = regret cumulatif divisé par les pas de temps (nombre de répétitions du jeu) 
+stratégie moyenne = moyenne des stratégies comportementales utilisées à chaque pas de temps
+
+<img width="442" alt="rewards" src="https://user-images.githubusercontent.com/57531966/172142303-a4d6149b-3741-40b6-8e77-0235e667908a.png">
+
+- les joueurs (j1 en bleu, j2 en jaune) effectuent des actions et collectent des récompenses à chaque tour (cad à chaque pas de temps t)
+- l'algorithme regret matching garde une trace des regrets envers les experts et met à jour les stratégies afin qu'à chaque étape t la stratégie actuelle corresponde aux regrets cumulatifs positifs
+- la moyenne des stratégies à tous les pas de temps convergera vers l'équilibre de Nash
+
+### 4. Le regret global moyen
+
+
+# IV - the CFR algorithm
+
+### 1. Idée générale du CFR
+
+le CFR est une procédure Regret Matching appliquée pour optimiser ce qu'on appelle le regret contrefactuel immédiat qui, lorsqu'il est minimisé dans chaque information set, est une limite supérieure du regret global moyen. Le regret contrefactuel immédiat est garanti de tendre vers 0 si la procédure de Regret Matching est appliquée.
+
+C'est à dire que le regret global moyen peut être minimisé via un CFR. Minimiser le regret moyen global pour les deux joueurs conduit à l'équilibre de Nash. Or l'équilibre de Nash est la stratégie optimale au Heads up NLTH.
+
+Le CFR se définit par la Counterfactual utility et le Immediate Counterfactual Regret.
+
+### 2. La Counterfactual utility
+
+On a parlé précédemment des utilités attendues = c'est-à-dire la récompense attendue en choisisant telle décision. On a dit que c'était un moyen pratique d'évaluer les stratégies des joueurs.
+
+La Counterfactual utility = une autre métrique d'évaluation des stratégies des joueurs. Cette fois, notre métrique est définie pour chaque information set séparément
+
+
+
+
+### 3. Le Immediate Counterfactual Regret
+
+
+# V - Create a Poker Bot for Heads-up NLTH
 
 ### 1. Reinforcement learning
 ### 2. Counterfactual Regret Minimization (CFR) algorithm

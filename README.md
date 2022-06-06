@@ -306,19 +306,36 @@ stratégie moyenne = moyenne des stratégies comportementales utilisées à chaq
 
 ### 1. Idée générale du CFR
 
-le CFR est une procédure Regret Matching appliquée pour optimiser ce qu'on appelle le regret contrefactuel immédiat qui, lorsqu'il est minimisé dans chaque information set, est une limite supérieure du regret global moyen. Le regret contrefactuel immédiat est garanti de tendre vers 0 si la procédure de Regret Matching est appliquée.
+|information set | game state|
+|-------|--------|
+| La perspective d'un joueur. C'est un set de game states. Par exemple dans l'image Kuhn Poker game tree le joueur en bleu a 2 information sets ou les lignes en pointillés rejoignent les deux informations sets (ensemble d'états de jeux ou nodes qui ne peuvent pas être distingués pour un autre joueur) Les information sets pour les deux joueurs dans tous les points de décision au poker sont différents. | Chaque noeud est un game state |
+
+
+le CFR est une procédure Regret Matching appliquée pour optimiser ce qu'on appelle **le regret contrefactuel immédiat** qui, lorsqu'il est minimisé dans chaque information set, est une limite supérieure du regret global moyen. Le regret contrefactuel immédiat est garanti de tendre vers 0 si la procédure de Regret Matching est appliquée.
 
 C'est à dire que le regret global moyen peut être minimisé via un CFR. Minimiser le regret moyen global pour les deux joueurs conduit à l'équilibre de Nash. Or l'équilibre de Nash est la stratégie optimale au Heads up NLTH.
 
-Le CFR se définit par la Counterfactual utility et le Immediate Counterfactual Regret.
+Le CFR se définit par **la Counterfactual utility** et le **Immediate Counterfactual Regret**.
 
 ### 2. La Counterfactual utility
 
-On a parlé précédemment des utilités attendues = c'est-à-dire la récompense attendue en choisisant telle décision. On a dit que c'était un moyen pratique d'évaluer les stratégies des joueurs.
+On a parlé précédemment des utilités attendues = c'est-à-dire la récompense attendue en choisisant tel chemin. On a dit que c'était un moyen pratique d'évaluer les stratégies des joueurs.
 
-La Counterfactual utility = une autre métrique d'évaluation des stratégies des joueurs. Cette fois, notre métrique est définie pour chaque information set séparément
+La Counterfactual utility = une autre métrique d'évaluation des stratégies des joueurs. Cette fois, notre métrique est définie pour chaque information set séparément.
 
+imaginez que vous êtes à un point de décision particulier dans le heads up NLTH. Vous ne savez pas quelles cartes votre adversaire détient. Supposons un instant que vous ayez décidé de deviner que la main de votre adversaire était une paire d'as. Cela signifie que vous n'êtes plus dans l'information set parce que vous vous mettez simplement dans un état de jeu spécifique (en supposant la main d'un adversaire particulier). Cela signifie que vous pouvez calculer l'utilité attendue pour un sous-jeu enraciné dans l'état de jeu que vous avez supposé. Cet utilité serait simplement :
 
+<img width="218" alt="counterfactual utility" src="https://user-images.githubusercontent.com/57531966/172170102-e1b8847e-1316-4cce-b3ee-9cb9dcf66312.png">
+
+- πσ(h,h′) = probabilité d'atteindre le game state h' a partir du game state h
+- Z est l'ensemble de tous les terminal nodes
+- les probabilités d'atteindre un game state est le produit de toutes les probabilités d'actions avant l'état actuel, dont le hasard
+
+Si nous faisons ce calcul pour chaque game state possible dans notre information set (chaque main possible que peut avoir l'adversaire), nous nous retrouverons avec un vecteur d'utilités, une pour chaque main que peut avoir l'adversaire. Si nous pondérons maintenant ces utilités en fonction des probabilités d'atteindre le game state correspondant et que nous les additionnons, nous finirons par avoir l'utilité attendue régulière.
+
+Pour obtenir une utilité contrefactuelle, nous devons utiliser un autre schéma de pondération. Pour chaque main de l'adversaire (game state h), utilisons la probabilité d'atteindre h en supposant que nous voulions atteindre h. Ainsi, au lieu d'utiliser notre stratégie habituelle à partir du profil de stratégie, nous la modifions un peu afin qu'elle essaie toujours d'atteindre notre état de jeu actuel h - ce qui signifie que pour chaque ensemble d'informations avant l'état de jeu actuellement supposé, nous prétendons que nous avons toujours joué une stratégie comportementale pure où l'ensemble la masse de probabilité a été placée dans l'action qui a été réellement jouée et a conduit à l'état actuel supposé h - qui est en fait contrefactuel, en opposition aux faits, car nous avons vraiment joué selon σ. En pratique, nous considérons simplement la contribution de notre adversaire à la probabilité d'atteindre l'état de jeu actuellement supposé h. Ces poids (appelons-les probabilités de portée contrefactuelles) expriment l'intuition suivante : "quelle est la probabilité que mon adversaire arrive ici en supposant que j'ai toujours joué pour arriver ici ?"
+
+La Counterfactual utility est ensuite la somme pondérée des utilités pour les sous-jeux (chacun enraciné dans un seul état de jeu) à partir de l'ensemble d'informations actuel, les pondérations étant les probabilités contrefactuelles normalisées d'atteindre ces états.
 
 
 ### 3. Le Immediate Counterfactual Regret

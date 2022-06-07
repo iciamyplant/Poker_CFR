@@ -233,7 +233,7 @@ Article [Usbek & Rica](https://usbeketrica.com/fr/article/poker-en-ligne-les-bot
 de nommbre
 
 
-# III - CFR algorithm with Rock-Paper-Scissors
+# IV - Rock-Paper-Scissors with CFR
 
 ### 1. Idée du Counterfactual Regret Minimization
 

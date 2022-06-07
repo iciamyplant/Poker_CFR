@@ -245,11 +245,14 @@ Counterfactual
 Regret :
 - definition : quelque chose que j'ai fait, mais que j'aurais aimé ne pas avoir fait
 - exemple au poker : "je n'aurais pas du me coucher, j'aurais pu gagner plein d'argent"
+- Regret is a numeric value describing how much you regret a decision. It can be positive, negative, or zero. A positive regret indicates that you would have rather taken a different decision. A negative regret indicates that you are happy with your decision and a zero regret indicates that you are indifferent
 - on va regarder les rewards qu'on aurait pu recevoir en soustrayant le reward qu'on a effectivement recu
 
 Minimization :
 - c'est le but de l'algorithme
 - on veut minimiser le regret dans les actions qu'on prend : ça signifie qu'on se rapproche de l'optimale stratégie
+
+CFR works by repeatedly playing against itself while minimizing regret. CFR minimizes regret over many iterations until the average strategy over all iterations converges. The average strategy is the approximated Nash equilibrium.
 
 ### 2. Exemple : Rock - Paper - Scissors
 

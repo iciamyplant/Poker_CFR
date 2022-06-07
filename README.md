@@ -289,7 +289,7 @@ Pour trouver la stratégie optimale Nash Equilibrium, on va entraîner deux algo
 implementation at  /Rock-Paper-Scissors/my_first_cfr_rockpaperscissors.py
 ````
 
-# V - Kuhn Poker with CFR algorithm
+# V - Kuhn Poker with Vanilla CFR algorithm
 
 ### 1. Rappel des règles du Kuhn Poker
 

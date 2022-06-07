@@ -233,7 +233,7 @@ Article [Usbek & Rica](https://usbeketrica.com/fr/article/poker-en-ligne-les-bot
 de nommbre
 
 
-# IV - Rock-Paper-Scissors with CFR
+# IV - Rock-Paper-Scissors with CFR algorithm
 
 ### 1. Idée du Counterfactual Regret Minimization
 
@@ -285,6 +285,9 @@ CFR works by repeatedly playing against itself while minimizing regret. CFR mini
 
 Pour trouver la stratégie optimale Nash Equilibrium, on va entraîner deux algorithmes CFR à jouer l'un contre l'autre, jusqu'à ce qu'ils trouvent la stratégie optimale. Pour un jeu comme le rock-paper-scissors, ça va prendre environ 10k itérations. La stratégie optimale au Rock-Paper-Scissors est 1/3 pour chaque, 33,33333% pour rock, pour paper, et pour scissors.
 
+````
+implementation /Rock-Paper-Scissors/my_first_cfr_rockpaperscissors.py
+````
 
 ### 3. Vanilla CFR
 

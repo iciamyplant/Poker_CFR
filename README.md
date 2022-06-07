@@ -235,7 +235,7 @@ de nommbre
 
 # IV - Rock-Paper-Scissors with CFR algorithm
 
-### 1. Idée du Counterfactual Regret Minimization
+### 1. Principe du Counterfactual Regret Minimization
 
 Counterfactual 
 - exprime ce qui n'est pas arrivé, mais ce qui pourrait arriver, sous différentes conditions
@@ -254,7 +254,7 @@ Minimization :
 
 CFR works by repeatedly playing against itself while minimizing regret. CFR minimizes regret over many iterations until the average strategy over all iterations converges. The average strategy is the approximated Nash equilibrium.
 
-### 2. Exemple : Rock - Paper - Scissors
+### 2. Fonctionnement du Rock-Paper-Scissors CFR 
 
 2 joueurs jouent au pire feuille ciseaux, le gagnant gagne 1 point le perdant perd 1 point, 0 pour égalité
 
@@ -286,10 +286,52 @@ CFR works by repeatedly playing against itself while minimizing regret. CFR mini
 Pour trouver la stratégie optimale Nash Equilibrium, on va entraîner deux algorithmes CFR à jouer l'un contre l'autre, jusqu'à ce qu'ils trouvent la stratégie optimale. Pour un jeu comme le rock-paper-scissors, ça va prendre environ 10k itérations. La stratégie optimale au Rock-Paper-Scissors est 1/3 pour chaque, 33,33333% pour rock, pour paper, et pour scissors.
 
 ````
-implementation /Rock-Paper-Scissors/my_first_cfr_rockpaperscissors.py
+implementation at  /Rock-Paper-Scissors/my_first_cfr_rockpaperscissors.py
 ````
 
-### 3. Vanilla CFR
+# V - Kuhn Poker with CFR algorithm
+
+### 1. Rappel des règles du Kuhn Poker
+
+- version super-simplifiée du Poker
+- zero-sum two players information game, comme le Heads up NLTH
+- en tout 3 cartes, 1 carte par joueur, pas de cartes publiques
+- la carte la plus haute gagne
+- un seul tour d'enchères, on peut pas re-miser
+
+<img width="638" alt="Kuhn_pokergametree" src="https://user-images.githubusercontent.com/57531966/172416714-e026c017-d8db-4867-99e9-1e6458a34d70.png">
+
+### 2. Fonctionnement du Kuhn Poker CFR
+
+Principe : 
+- [x] : selectionner l'action que je veux prendre
+- [x] : calculer le reward reçu pour cette action 
+- [x] : calculer les counterfactual rewards
+- [x] : calculer le regret (counterfactual reward - actual reward)
+- [x] : stocker tous les regrets dans une table
+- [x] : additionner les regrets et normaliser dans une strategie
+
+Imaginons :
+<img width="663" alt="exemple_regret_kuhnpoker" src="https://user-images.githubusercontent.com/57531966/172423190-0ca7907b-018f-426b-a595-32a8be58dd90.png">
+
+Player 1 au deuxième noeud bleu, sachant que P1 a un roi et P2 a un valet :
+- Rpass : counterfactual reward - Real reward = -1 -(-1) = 0
+- Rbet : counterfactual reward - Real reward = 2 - (-1) = 3
+
+<img width="962" alt="kuhnpoker" src="https://user-images.githubusercontent.com/57531966/172427226-0473d954-def4-461e-a9d4-523494d6ac2f.png">
+
+Player 1 au premier noeud bleu, sachant que P1 a un roi et P2 a un valet :
+- Rpass : counterfactual reward - Real reward = -1 -(-1) = 0
+- Rbet : counterfactual reward - Real reward = 1 - (-1) = 2
+
+==> nous commencons à converger vers une stratégie optimale. Si on reçoit à nouveau le roi, on est + susceptible de parier. Et si on arrive au deuxième noeuf bleu, on ne décidera pas de pass à nouveau.
+
+Nous allons : 
+- [x] : Passer récursivement dans le game tree
+- [x] : Quand on atteint un noeud terminal ou quand le jeu est fini, on calcule la récompense reçue
+- [x] : On calcule le regret pour chaque action, à chaque noeud de décision
+- [x] : Nous allons suivre la probabilité d'atteindre chaque noeud
+- [x] : Mettre à jour les stratégies après chaque itération, après que chaque jeu soit joué, donc pas pdt qu'on parcourt résursivement
 
 
 # IV - Requirements to understand the Monte Carlo Counterfactual Regret Minimization algorithm

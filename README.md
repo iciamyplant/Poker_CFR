@@ -233,7 +233,60 @@ Article [Usbek & Rica](https://usbeketrica.com/fr/article/poker-en-ligne-les-bot
 de nommbre
 
 
-# III - Requirements to understand the CFR algorithm
+# III - CFR algorithm with Rock-Paper-Scissors
+
+### 1. Idée du Counterfactual Regret Minimization
+
+Counterfactual 
+- exprime ce qui n'est pas arrivé, mais ce qui pourrait arriver, sous différentes conditions
+- exemple au poker : "si j'avais fait all-in, j'aurais gagné 20$"
+- on va explorer d'autres états de jeu qu'on a pas pris, et trouver la récompense qu'on aurait gagné
+
+Regret :
+- definition : quelque chose que j'ai fait, mais que j'aurais aimé ne pas avoir fait
+- exemple au poker : "je n'aurais pas du me coucher, j'aurais pu gagner plein d'argent"
+- on va regarder les rewards qu'on aurait pu recevoir en soustrayant le reward qu'on a effectivement recu
+
+Minimization :
+- c'est le but de l'algorithme
+- on veut minimiser le regret dans les actions qu'on prend : ça signifie qu'on se rapproche de l'optimale stratégie
+
+### 2. Exemple : Rock - Paper - Scissors
+
+2 joueurs jouent au pire feuille ciseaux, le gagnant gagne 1 point le perdant perd 1 point, 0 pour égalité
+
+- Tour 1 : Rock-rock (we are rock)
+- Tour 2 : Rock-Paper (we are rock)
+
+|tour N°|Actual Reward|Counterfactual Reward|Regret (counterfactual rewards - real rewards)|
+|-----|------|------|-------|
+|1 |reward of 0 for both| scissors = -1, Paper = 1| Rock : 0-0 = 0, Paper = 1-0 = 1, Scissors = -1-0 = -1|
+|2| our actual reward is -1| Paper = 0, Scissors = 1| Rock =-1+0=1, Paper = 0-(-1)= 1+1 = 2, Scissors = 1-(-1)-1 = 2-1 = 1|
+
+==> on additionne tous les regrets à chaque itération. Donc le tour N°2, Scissors = 1-(-1) = 2 -1 (notre ancien regret) = 1. Et à un moment on se retrouve avec ça :
+
+| Rock| Paper| Scissors|
+|----|-----|-----|
+|100|50|50|
+
+==> Ici on regrette de na pas avoir pris Rock plus souvent. Comment minimiser ce regret ? On va normaliser ces valeurs, ou les transformer en pourcentage. Donc on additionne tous nos regrêt et on divise chaque regret par ce nombre.
+
+100+50+50 = 200. 
+
+| Rock| Paper| Scissors|
+|----|-----|-----|
+|100/200 = 50%|50/200 = 25%|50/200 = 25%|
+
+==> Maintenant lorsqu'on prend nos décisions pour le prochain jeu, on va choisir la Pierre 50% du temps, le papier 25% et les ciseaux 25% aussi. En choisissant la pierre plus souvent, on va minimiser le regret qu'on ressent.
+
+
+Pour trouver la stratégie optimale Nash Equilibrium, on va entraîner deux algorithmes CFR à jouer l'un contre l'autre, jusqu'à ce qu'ils trouvent la stratégie optimale. Pour un jeu comme le rock-paper-scissors, ça va prendre environ 10k itérations. La stratégie optimale au Rock-Paper-Scissors est 1/3 pour chaque, 33,33333% pour rock, pour paper, et pour scissors.
+
+
+### 3. Vanilla CFR
+
+
+# IV - Requirements to understand the Monte Carlo Counterfactual Regret Minimization algorithm
 
 ### 1. Concept principal du CFR = le regret
 
@@ -302,9 +355,9 @@ stratégie moyenne = moyenne des stratégies comportementales utilisées à chaq
 ### 4. Le regret global moyen
 
 
-# IV - the CFR algorithm
+# V - Monte Carlo Counterfactual Regret Minimization algorithm
 
-### 1. Idée générale du CFR
+### 1. Idée générale du MCCFR
 
 |information set | game state|
 |-------|--------|
@@ -341,7 +394,10 @@ La Counterfactual utility est ensuite la somme pondérée des utilités pour les
 ### 3. Le Immediate Counterfactual Regret
 
 
-# V - Create a Poker Bot for Heads-up NLTH
+
+
+
+# VI - Create a Poker Bot for Heads-up NLTH
 
 ### 1. Reinforcement learning
 ### 2. Counterfactual Regret Minimization (CFR) algorithm

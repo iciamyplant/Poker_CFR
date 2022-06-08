@@ -333,6 +333,19 @@ Nous allons :
 - [x] : Nous allons suivre la probabilité d'atteindre chaque noeud
 - [x] : Mettre à jour les stratégies après chaque itération, après que chaque jeu soit joué, donc pas pdt qu'on parcourt résursivement
 
+==> Même dans un simple Kuh Poker, on va voir des vraies stratégies de Poker émerger. Par exemple avec le Jack bet 20% : c'est du bluff. Donc le bot apprend à bluffer. Avec le King pass 25%, on a la meilleure main mais on essaye d'induire que non, on attend que l'adversaire mise.
+
+### 3. Vanilla CFR
+
+````
+implementation at  /Kuhn-Poker/my_first_vanilla_cfr_kuhnpoker.py
+````
+
+- ça marche bien pour un jeu comme le Kuhn Poker. Mais ne marche pas bien pour les jeux à plus grande échelle comme dans le NLTH
+- il est très gourmand en mémoire. Les modèles de Vanilla CFR peuvent atteindre 215 TiB (tera bits) de mémoire
+- il peut prendre des millions d'heures pour tout calculer
+- c'est pour cela qu'on utilise le CFR+ (version améliorée du CFR) ou le Monte Carlo Counterfactual Regret Minimization (MCCFR). On utilise aussi le pruning qui est utilisé pour ne pas explorer les pires options du game tree
+- c'est pour cela aussi qu'on passe par l'abstraction, qui va être utilisé pour réduire la taille de notre game tree
 
 # IV - Requirements to understand the Monte Carlo Counterfactual Regret Minimization algorithm
 

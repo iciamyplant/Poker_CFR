@@ -1,4 +1,24 @@
-
+## plan
+### I - Poker - Informations générales
+### II - Théorie des jeux
+- **1. Classification des jeux**
+- **2. Stratégies Optimales**
+- .2.1 : La stratégie de l'elimination des stratégies dominées (EISD)
+- .2.2 : L'équilibre de Nash
+### III - Poker Bots
+- **1. Type de jeu du Heads up NLTH**
+- **2. Avoir une stratégie au Poker**
+- **3. Nash Equilibrium, la stratégie optimale**
+- **4. Poker Game Tree**
+- **5. Historique**
+- **6. Poker en ligne & bots**
+### IV - Rock-Paper-Scissors with CFR algorithm
+- **1. Principe du Counterfactual Regret Minimization**
+- **2. Fonctionnement du Rock-Paper-Scissors CFR**
+### V - Kuhn Poker with Vanilla CFR algorithm
+- **1. Rappel des règles du Kuhn Poker**
+- **2. Fonctionnement du Kuhn Poker CFR**
+- **3. Vanilla CFR**
 
 
 
@@ -152,7 +172,7 @@ Dans des jeux comme le poker, les actions choisies via des stratégies ne peuven
 - Un tour de jeu serait une séquence d'actions tirées de distributions de probabilités données par les stratégies des joueurs (+ actions du croupier comme chance)
 - Une fois qu'un jeu est terminé, les joueurs gagnent leurs utilités (ou gains). Parce que nous sommes installés dans un cadre probabiliste, chaque joueur a des utilités attendues. Cela signifie que nous pouvons évaluer les stratégies via les utilités attendues.
 
-### 2. Nash Equilibrium, la stratégie optimale
+### 3. Nash Equilibrium, la stratégie optimale
 
 Y a t-il une stratégie optimale au Poker ? Selon la théorie des jeux, oui : le profil de stratégie Nash-Equilibrium. Et l'algorithme CFR tente d'en faire une approximation.
 
@@ -180,7 +200,7 @@ Si l'on choisi de jouer n'importe quelle stratégie à partir de n'importe quel 
 ==> En pratique donc, jouer à Nash Equilibrium permet en principe de gagner (contre des humains sujets aux erreurs)
 ==> Notre algorithme CFR – produit une approximation du profil de stratégie Nash-Equilibrium
 
-### 3. Poker Game Tree
+### 4. Poker Game Tree
 
 Tic-tac-toe game tree (= perfect information game):
 
@@ -209,7 +229,7 @@ Perspective d'un joueur = information sets (ensemble d'états de jeux ou nodes q
 Les information sets pour les deux joueurs dans tous les points de décision au poker sont différents. Pour le poker, les stratégies comportementales (probabilités sur les actions) sont définies pour des ensembles d'informations, pas pour des états de jeu.
 
 
-### 4. Historique
+### 5. Historique
 
 **2019** : Pluribus
 
@@ -225,8 +245,7 @@ Les information sets pour les deux joueurs dans tous les points de décision au 
 
 ===> Tous les programmes de Poker utilisent une forme de **Counterfactual Regret Minimization** comme composante principale (Par ex, DeepStack a utilisé un algorithme de type CFR (aidé par des réseaux de neurones) pour la résolution de sous-jeux, la stratégie de Libratus (équilibre de Nash d'une abstraction de jeu) a été calculé avec le Monte Carlo counterfactual regret minimization).
 
-
-### 5. Poker en ligne & bots
+### 6. Poker en ligne & bots
 
 - Pokerstars et Winamax reçoivent chaque mois plusieurs centaines de mails de la part de joueurs estimant avoir affronté un bot
 Article [Usbek & Rica](https://usbeketrica.com/fr/article/poker-en-ligne-les-bots-finiront-ils-par-chasser-les-humains)

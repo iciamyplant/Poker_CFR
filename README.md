@@ -347,10 +347,26 @@ Rewards :
 implementation at  /Kuhn-Poker/first_vanilla_cfr_kuhnpoker.py
 ````
 
+Player 1 Stratégies sur 25k itérations :
 
+| Carte - Historique | Pass | Bet | 
+|------|----------|-------|
+|O (=jack, noeud tout en haut) | 0.75| 0.25|
+|0 pb (=jack, noeud noeud après que J1 a pass et J2 a bet)| 1.00 (normal, si j'ai un jack il faut passer là)| 0.00 (et surtout pas bet si sachant que j'ai la pire carte)|
+|1 (=queen, pas d'historique noeud du haut)|0.98|0.02|
+|1 pb (=queen, J1 a pass J2 a bet)|0.40|0.60|
+|2 (=king)|0.23| 0.77|
+|2 pb| 0.00| 1.00|
 
-
-
+Player 2 Stratégies sur 25 itérations :
+| Carte - Historique | Pass | Bet | 
+|------|----------|-------|
+|O b (=jack, J1 a bet) | 1.00| 0.00|
+|0 p (=jack, J1 a pass)| 0.67| 0.33|
+|1 b (=queen, J1 a bet)|0.63|0.37|
+|1 p |1.00|0.00|
+|2 p|0.00| 1.00|
+|2 b| 0.00| 1.00|
 
 - ça marche bien pour un jeu comme le Kuhn Poker. Mais ne marche pas bien pour les jeux à plus grande échelle comme dans le NLTH
 - il est très gourmand en mémoire. Les modèles de Vanilla CFR peuvent atteindre 215 TiB (tera bits) de mémoire

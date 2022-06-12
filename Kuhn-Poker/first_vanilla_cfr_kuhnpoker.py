@@ -99,6 +99,9 @@ def entrainement(iterations):
 
     #print('expected_game_value = ', expected_game_value)
     expected_game_value /= iterations
+    #print('expected_game_value', expected_game_value)
+    #print('nodes_matrix', nodes_matrix)
+    print('nodes_matrix[0]', nodes_matrix.items())
     display_results(expected_game_value, nodes_matrix)
 
 class Node:
@@ -140,13 +143,13 @@ class Node:
         return '{} {}'.format(self.key.ljust(6), strategies)
 
 
-def display_results(ev, i_map):
+def display_results(ev, nodes_matrix):
     print('player 1 expected value: {}'.format(ev))
     print('player 2 expected value: {}'.format(-1 * ev))
 
     print()
     print('player 1 strategies:')
-    sorted_items = sorted(i_map.items(), key=lambda x: x[0])
+    sorted_items = sorted(nodes_matrix.items(), key=lambda x: x[0])
     for _, v in filter(lambda x: len(x[0]) % 2 == 0, sorted_items):
         print(v)
     print()

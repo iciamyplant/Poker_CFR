@@ -498,11 +498,29 @@ La Counterfactual utility est ensuite la somme pondérée des utilités pour les
 ### 7. Le Immediate Counterfactual Regret
 
 
-Ressources :
-- Pour comprendre l'algorithme [CFR](https://github.com/iciamyplant/Poker/blob/master/Ressources/CFR/Introduction_to_CFR.pdf)
-- Pour [le monte carlo CFR]()
-- Sur les IA qui ont battu des pros de Poker [Deepstack](https://github.com/iciamyplant/Poker/blob/master/Ressources/Poker%20IAs/DeepStack.pdf), sur [Libratus](https://github.com/iciamyplant/Poker/blob/master/Ressources/Poker%20IAs/Libratus.pdf)
+# Ressources
 
+1. Pour comprendre l'algorithme CFR
+- Ce document d'introduction très bien expliqué [CFR](https://github.com/iciamyplant/Poker/blob/master/Ressources/CFR/Introduction_to_CFR.pdf)
+- Cette [vidéo expliquant les grandes lignes du CFR](https://www.youtube.com/watch?v=NWS9v_r_IWk&t=1s)
+- Cette [série de vidéos qui s'appuie sur le document d'introduction au CFR](https://www.youtube.com/watch?v=Wa-fRIBGZZI)
+
+2. Autour de la théorie des jeux
+- Les 2 documents [ici](https://github.com/iciamyplant/Poker/tree/master/Ressources/Th%C3%A9orie%20des%20jeux)
+
+3. Pour coder un Vanilla CFR
+- [Tutoriel](https://justinsermeno.com/posts/cfr/) archi bien expliqué sur le Kuhn Poker 
+
+4. Autour du Monte Carlo CFR & des IA qui ont battu des pros du Poker
+- Quelques documents assez techniques sur [le monte carlo CFR](https://github.com/iciamyplant/Poker/tree/master/Ressources/CFR/MCCFR)
+- Sur les IA qui ont battu des pros de Poker [Deepstack](https://github.com/iciamyplant/Poker/blob/master/Ressources/Poker%20IAs/DeepStack.pdf), sur [Libratus](https://github.com/iciamyplant/Poker/blob/master/Ressources/Poker%20IAs/Libratus.pdf)
+- [Ce tutoriel](https://int8.io/counterfactual-regret-minimization-for-poker-ai/) archi clair pour dév un MCCFR mais assez technique
+
+5. Autres ressources intéressants sur le sujet
+- [cette vidéo](https://www.youtube.com/watch?v=H5RA3NIDuDY) qui aborde d'una manière moins technique le sujet des IA des imperfect information games
+
+6. Lancer Deepstack pour le Leduc Poker sur son ordi
+- Pour lancer une implémentation de Deepstack sur le Leduc Poker[Github DeepStack](https://github.com/lifrordi/DeepStack-Leduc), [Readme d'explication](https://github.com/lifrordi/DeepStack-Leduc/blob/master/doc/manual/tutorial.md)
 
 
 

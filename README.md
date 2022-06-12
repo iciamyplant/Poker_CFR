@@ -511,6 +511,7 @@ La Counterfactual utility est ensuite la somme pondérée des utilités pour les
 - Ce document d'introduction très bien expliqué [CFR](https://github.com/iciamyplant/Poker/blob/master/Ressources/CFR/Introduction_to_CFR.pdf)
 - Cette [vidéo expliquant les grandes lignes du CFR](https://www.youtube.com/watch?v=NWS9v_r_IWk&t=1s)
 - Cette [série de vidéos qui s'appuie sur le document d'introduction au CFR](https://www.youtube.com/watch?v=Wa-fRIBGZZI)
+- [Vidéo](https://www.youtube.com/watch?v=cn8Sld4xQjg) archi bien expliquée par le co-créateur de Libratus
 
 ### 2. Autour de la théorie des jeux
 - Les 2 documents [ici](https://github.com/iciamyplant/Poker/tree/master/Ressources/Th%C3%A9orie%20des%20jeux)

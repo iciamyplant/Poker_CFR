@@ -393,7 +393,7 @@ Player 2 Stratégies sur 25 itérations :
 - c'est pour cela qu'on utilise le CFR+ (version améliorée du CFR) ou le Monte Carlo Counterfactual Regret Minimization (MCCFR). On utilise aussi le pruning qui est utilisé pour ne pas explorer les pires options du game tree
 - c'est pour cela aussi qu'on passe par l'abstraction, qui va être utilisé pour réduire la taille de notre game tree
 
-# IV - Requirements to understand the Monte Carlo Counterfactual Regret Minimization algorithm
+# VI - The Monte Carlo Counterfactual Regret Minimization algorithm
 
 ### 1. Concept principal du CFR = le regret
 
@@ -461,10 +461,7 @@ stratégie moyenne = moyenne des stratégies comportementales utilisées à chaq
 
 ### 4. Le regret global moyen
 
-
-# V - Monte Carlo Counterfactual Regret Minimization algorithm
-
-### 1. Idée générale du MCCFR
+### 5. Idée générale du MCCFR
 
 |information set | game state|
 |-------|--------|
@@ -477,7 +474,7 @@ C'est à dire que le regret global moyen peut être minimisé via un CFR. Minimi
 
 Le CFR se définit par **la Counterfactual utility** et le **Immediate Counterfactual Regret**.
 
-### 2. La Counterfactual utility
+### 6. La Counterfactual utility
 
 On a parlé précédemment des utilités attendues = c'est-à-dire la récompense attendue en choisisant tel chemin. On a dit que c'était un moyen pratique d'évaluer les stratégies des joueurs.
 
@@ -498,23 +495,13 @@ Pour obtenir une utilité contrefactuelle, nous devons utiliser un autre schéma
 La Counterfactual utility est ensuite la somme pondérée des utilités pour les sous-jeux (chacun enraciné dans un seul état de jeu) à partir de l'ensemble d'informations actuel, les pondérations étant les probabilités contrefactuelles normalisées d'atteindre ces états.
 
 
-### 3. Le Immediate Counterfactual Regret
+### 7. Le Immediate Counterfactual Regret
 
 
-
-
-
-# VI - Create a Poker Bot for Heads-up NLTH
-
-### 1. Reinforcement learning
-### 2. Counterfactual Regret Minimization (CFR) algorithm
-- vanilla cfr
-- monte carlo cfr 
-### 3. Abstractions
-### 4. Nested subgame solving
-
-
-
+Ressources :
+- Pour comprendre l'algorithme [CFR](https://github.com/iciamyplant/Poker/blob/master/Ressources/CFR/Introduction_to_CFR.pdf)
+- Pour [le monte carlo CFR]()
+- Sur les IA qui ont battu des pros de Poker [Deepstack](https://github.com/iciamyplant/Poker/blob/master/Ressources/Poker%20IAs/DeepStack.pdf), sur [Libratus](https://github.com/iciamyplant/Poker/blob/master/Ressources/Poker%20IAs/Libratus.pdf)
 
 
 

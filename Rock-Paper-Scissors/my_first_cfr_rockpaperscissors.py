@@ -30,28 +30,45 @@ def entrainement(iterations):
                     [1, 0, -1],
                     [-1, 1, 0]])#actionUtility ==> permet de calcul les rewards. en (0,0) c'est le pierre-pierre, en (0,1) c'est le pierre pour moi, feuille pour l'opponent ce qui me donne une reward de -1. etc
     cumulate_regret_j1 = np.zeros(3) #crée une array avec [0.,0.,0.] ==> [regrets cumulés pierre, regrets cumulés feuille, regrets cumulés ciseau]. On met pas des int parce que ensuite on fait des division dedans pour normaliser
+    #print('cumulate_regret_j1 = ', cumulate_regret_j1)
     cumulate_regret_j2 = np.zeros(3) #idem pour adversaire
     cumulate_strategy_j1 = np.zeros(3)
     cumulate_strategy_j2 = np.zeros(3)
     for i in range(iterations):
+        #print('------iteration N°', i, '------')
         strategy_j1 = regrets_normalisation(cumulate_regret_j1) #strategy_j1 contient les probabilités avec lesquelles ont doit choisir telle ou telle action, se perfectionne d'iteration en iteration
         strategy_j2 = regrets_normalisation(cumulate_regret_j2) #idem pour l'adversaire
         cumulate_strategy_j1 += strategy_j1
         cumulate_strategy_j2 += strategy_j2
         #on choisit une action : pierre-feuille-ciseau
+        #if (i == 0):
+        #    action_j1 = 0
+        #    action_j2 = 0
+        #if (i ==1):
+        #    action_j1 = 0
+        #    action_j2 = 1
         action_j1 = np.random.choice(actions, p=strategy_j1)#choisi une action parmi actions[action 0, action 1, action 2], et choisi les actions selon la distribution normalise qui au premier tour sera : [0.3333,0.3333,0.3333]
+        #print('action_j1 = ', action_j1)
         action_j2 = np.random.choice(actions, p=strategy_j2)#la meme pour mon adversaire selon sa distribution a lui normalise_j2
+        #print('action_j2 = ', action_j2)
         #on en deduie ce qu'on a gagné ou perdu 0 si égalité, 1 si gagné, -1 si perdu
         actual_reward_j1 = utility_matrix[action_j1, action_j2] #puisque sur les x de la matrice d'utilité c'est j1 et les y c'est j2. Je lui envoie (0,1) si y a eu pierre-feuille
+        #print('actual_reward_j1', actual_reward_j1)
         actual_reward_j2 = utility_matrix[action_j2, action_j1] #idem pour mon adversaire
+        #print('actual_reward_j2', actual_reward_j2)
         # pour chaque action pierre-feuille-ciseau (0,1,2) on va calculer le counterfactual rwrd, et donc le regret associé à chaque action
         for j in range(3):
-            counterfactual_reward_j1 = utility_matrix[j, action_j1] #on déduit le counterfactual rwrd
-            counterfactual_reward_j2 = utility_matrix[j, action_j2] #idem pour mon adversaire
+            #print('j=', j)
+            counterfactual_reward_j1 = utility_matrix[j, action_j2] #on déduit le counterfactual rwrd
+            #print('counterfactual_reward_j1 = ', counterfactual_reward_j1)
+            counterfactual_reward_j2 = utility_matrix[j, action_j1] #idem pour mon adversaire
+            #print('counterfactual_reward_j2 = ', counterfactual_reward_j2)
             regret_j1 = counterfactual_reward_j1 - actual_reward_j1 #on calcule le regret
+            #print('regret_j1 = ', regret_j1)
             regret_j2 = counterfactual_reward_j2 - actual_reward_j2 #idem pour mon adversaire
             #on additionne les regrets trouvé eux regrets stockés précédemment dans l'array cumulate_regret_j1[rock_regrets, paper_regrets, scissors_regrets]
             cumulate_regret_j1[j] += regret_j1 #pour l'action 0, cumulate_regret_j1[0] = cumulate_regret_j1[0]+regret_j1, pareil pour action 1 et 2
+            #print('cumulate_regret_j1 = ', cumulate_regret_j1)
             cumulate_regret_j2[j] += regret_j2 #idem pour l'adversaire
         #average_strategy_j1 = average_strategy(cumulate_strategy_j1)
         #average_strategy_j2 = average_strategy(cumulate_strategy_j2)
@@ -65,7 +82,7 @@ def entrainement(iterations):
     print('strategie moyenne j2:', average_strategy_j2)
 
 def main():
-    iterations = 10000
+    iterations = 100000
     entrainement(iterations)
 
 if __name__ == "__main__":

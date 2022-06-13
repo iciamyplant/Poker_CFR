@@ -290,7 +290,7 @@ CFR works by repeatedly playing against itself while minimizing regret. CFR mini
 |tour N°|Actual Reward|Counterfactual Reward|Regret (counterfactual rewards - real rewards)|
 |-----|------|------|-------|
 |1 |reward of 0 for both| scissors = -1, Paper = 1| Rock : 0-0 = 0, Paper = 1-0 = 1, Scissors = -1-0 = -1|
-|2| our actual reward is -1| Paper = 0, Scissors = 1| Rock =-1+0=1, Paper = 0-(-1)= 1+1 = 2, Scissors = 1-(-1)-1 = 2-1 = 1|
+|2| our actual reward is -1| Paper = 0, Scissors = 1| Rock =-1-(-1)=0, Paper = 0-(-1)= 1+1 = 2, Scissors = 1-(-1)-1 = 2-1 = 1|
 
 ==> on additionne tous les regrets à chaque itération. Donc le tour N°2, Scissors = 1-(-1) = 2 -1 (notre ancien regret) = 1. Et à un moment on se retrouve avec ça :
 

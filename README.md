@@ -19,8 +19,10 @@
 - **1. Rappel des règles du Kuhn Poker**
 - **2. Fonctionnement du Kuhn Poker CFR**
 - **3. Vanilla CFR**
-### VI - Monte Carlo CFR algorithm
-### VII - Ressources
+### VI - Lancer l'algo dans Microsoft Azure
+
+### VII - Monte Carlo CFR algorithm
+### VIII - Ressources
 - **1. Pour comprendre l'algorithme CFR**
 - **2. Autour de la théorie des jeux**
 - **3. Pour coder un Vanilla CFR**
@@ -400,7 +402,101 @@ Player 2 Stratégies sur 25 itérations :
 - c'est pour cela qu'on utilise le CFR+ (version améliorée du CFR) ou le Monte Carlo Counterfactual Regret Minimization (MCCFR). On utilise aussi le pruning qui est utilisé pour ne pas explorer les pires options du game tree
 - c'est pour cela aussi qu'on passe par l'abstraction, qui va être utilisé pour réduire la taille de notre game tree
 
-# VI - The Monte Carlo Counterfactual Regret Minimization algorithm
+
+# VI - Lancer l'algo dans Microsoft Azure
+
+Azure Machine Learning est une plateforme pour l’exploitation des charges de travail Machine Learning dans le cloud.
+
+### 1. Créer un espace de travail (=Workspace)
+Espace de travail  = un contexte pour les expériences, les données, les cibles de calcul et les autres ressources associées à une charge de travail Machine Learning. 
+
+Il est possible de créer l'espace de travail de différentes manières : directement dans le portail en ligne, ou avec le SDK Microsoft Azure par exemple.
+Toute la documentation est disponible [ici](https://docs.microsoft.com/fr-fr/learn/modules/intro-to-azure-machine-learning-service/2-azure-ml-workspace)
+
+Installer le SDK Azure Machine Learning :
+`````
+pip install azureml-core
+`````
+Pour créer son espace de travail avec le SDK :
+````
+    from azureml.core import Workspace
+    
+    ws = Workspace.create(name='aml-workspace', 
+                      subscription_id='123456-abc-123...',
+                      resource_group='aml-resources',
+                      create_resource_group=True,
+                      location='eastus'
+                     )
+````
+Personnellement je l'ai créé sur le portail en ligne, et ensuite je m'y suis connectée :
+````
+#connect to my workspace
+ws = Workspace(subscription_id="18d9c045-5366-44ac-83f3-a68cb44782c5",
+               resource_group="groupe-ressources",
+               workspace_name="Poker-YouTubeVideo")
+````
+
+==> Une fois créé, on a accès à Azure Machine Learning Studio. Toggle the ☰ icon at the top left to show and hide the various pages in the interface. You can use these pages to manage the resources in your workspace.
+
+
+### 2. Uploader ses données, nettoyer etc
+Moi j’ai pas de données, puisque le modèle s'entraîne en jouant contre lui-même.
+
+### 3. Créer une instance de calcul
+En gros les instances de calcul c'est la puissance de calcul qui permet de faire tourner mon modèle. Azure Machine Learning permet de créer des instances de calcul dans un espace de travail afin de fournir un environnement de développement géré avec toutes les autres ressources de l’espace de travail.
+
+Vous pouvez choisir une image d’instance de calcul qui fournit la spécification de calcul dont vous avez besoin, que ce soit de petites machines virtuelles avec CPU uniquement ou de grandes stations de travail compatibles GPU. Étant donné que les instances de calcul sont hébergées dans Azure, vous payez uniquement les ressources de calcul lorsqu’elles sont en cours d’exécution ; ainsi, vous pouvez créer une instance de calcul adaptée à vos besoins et l’arrêter quand votre charge de travail est terminée pour réduire les coûts.
+
+Toute la documentation est disponible [ici](https://microsoftlearning.github.io/mslearn-dp100/instructions/01-create-a-workspace.html)
+
+Pour créer une instance de calcul :
+- aller sur la compute page, cliquer sur new
+- remplir, sélectionner une virtual machine, avec des CPUs du nombre de cores qu’on veut
+- dans environ deux minutes, vous verrez l’État de l’instance de calcul passer de Création en cours à En cours d’exécution. Il sera prêt à ce moment-là
+
+### 4. Créer une expérience + la configuration d’exécution du script + soumettre l'experience
+Une expérience peut être exécutée plusieurs fois, avec des données, du code ou des paramètres différents. Azure Machine Learning effectue le suivi de chaque exécution, ce qui vous permet de voir l’historique des exécutions et de comparer les résultats de chaque exécution.
+Toute la documentation est disponible [ici](https://docs.microsoft.com/fr-fr/azure/machine-learning/how-to-set-up-training-targets)
+
+````
+#creer une experiment
+experiment_name = 'my_experiment'
+experiment = Experiment(workspace=ws, name=experiment_name)
+````
+
+Ensuite, on va créer la configuration d’exécution du script qu'on veut run. Maintenant que vous avez une cible de calcul (my_compute_target par exemple) et un environnement (myenv, voir Créer un environnement), créez une configuration d’exécution de script qui exécute votre script de formation (train.py) dans votre répertoire project_folder :
+
+````
+src = ScriptRunConfig(source_directory=project_folder,
+                      script='train.py',
+                      compute_target=my_compute_target,
+                      environment=myenv)
+
+# Set compute target
+# Skip this if you are running on your local computer
+script_run_config.run_config.target = my_compute_target
+````
+Mon code :
+````
+myenv = Environment.get(workspace=ws, name="AzureML-Minimal") #je précise c'est quoi mon env
+
+myscript = ScriptRunConfig(source_directory = './Kuhn-Poker',script ='first_vanilla_cfr_kuhnpoker.py',
+compute_target = 'compute-poker', environment = myenv) #configuration d'éxecution du script
+````
+Et enfin on soumet l'expérience :
+```
+run = experiment.submit(config=src)
+run.wait_for_completion(show_output=True)
+```
+
+### 5. Autres ressources Microsoft Azure intéressantes :
+
+- Un tuto video pour créer et déployer des modèles de ML sans code : [tuto](https://www.youtube.com/watch?v=TSEv5XN2keE)
+- Idem, tuto pour entraîner un modèle de ML de classification sans code, mais écrit : [tuto](https://aka.ms/NocodeAutoML)
+- Un MOOC bien fait par Microsoft, pour apprendre à utiliser AutoML : [MOOC](https://aka.ms/AutoML-MOOC)
+- La chaîne YouTube Microsoft Développeurs France (y a des videos inéteressantes, des tutos etc) : [chaîne Youtube](https://www.youtube.com/c/MSDeveloppeurs/videos)
+
+# VII - The Monte Carlo Counterfactual Regret Minimization algorithm
 
 ### 1. Concept principal du CFR = le regret
 
@@ -505,7 +601,7 @@ La Counterfactual utility est ensuite la somme pondérée des utilités pour les
 ### 7. Le Immediate Counterfactual Regret
 
 
-# VII - Ressources
+# VIII - Ressources
 
 ### 1. Pour comprendre l'algorithme CFR
 - Ce document d'introduction très bien expliqué [CFR](https://github.com/iciamyplant/Poker/blob/master/Ressources/CFR/Introduction_to_CFR.pdf)

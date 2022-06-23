@@ -20,7 +20,10 @@
 - **2. Fonctionnement du Kuhn Poker CFR**
 - **3. Vanilla CFR**
 ### VI - Lancer l'algo dans Microsoft Azure
-
+- **1. Créer un espace de travail (=Workspace)
+- **2. Uploader ses données, nettoyer etc
+- **3. Créer une instance de calcul
+- **4. Créer une expérience + la configuration d’exécution du script + soumettre l'experience
 ### VII - Monte Carlo CFR algorithm
 ### VIII - Ressources
 - **1. Pour comprendre l'algorithme CFR**
